@@ -1,0 +1,4 @@
+- hosts: aws_admin
+  user: root
+  roles:
+    - ntp

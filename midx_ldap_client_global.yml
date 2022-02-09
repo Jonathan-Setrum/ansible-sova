@@ -1,0 +1,9 @@
+- hosts: midx_ldap
+  user: root
+  sudo: yes
+
+- hosts: midx_ldap_client_global
+  user: root
+  sudo: yes
+  roles:
+    - midx_ldap_client

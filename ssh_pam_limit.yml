@@ -1,0 +1,6 @@
+- hosts: sova_vm_test
+  user: root
+  sudo: yes
+  roles:
+    - ssh_pam_limit
+

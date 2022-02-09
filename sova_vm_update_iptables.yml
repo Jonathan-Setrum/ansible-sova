@@ -1,0 +1,64 @@
+- hosts: sova_vm
+  vars_files:
+    - group_vars/ip_list.yml
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_iptables
+
+- hosts: sovafree_vm
+  vars_files:
+    - group_vars/ip_list.yml
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_iptables
+
+- hosts: sova_vm_test
+  vars_files:
+    - group_vars/ip_list.yml
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_iptables
+
+- hosts: sovafree_vm_test
+  vars_files:
+    - group_vars/ip_list.yml
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_iptables
+
+- hosts: sova_vm_template
+  vars_files:
+    - group_vars/ip_list.yml
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_iptables
+
+- hosts: sovafree_vm_template
+  vars_files:
+    - group_vars/ip_list.yml
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_iptables
+
+- hosts: sovafreedev_proxy
+  vars_files:
+    - group_vars/ip_list.yml
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_iptables
+
+- hosts: sovafree_proxy
+  vars_files:
+    - group_vars/ip_list.yml
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_iptables
+

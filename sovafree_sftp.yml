@@ -1,0 +1,9 @@
+- hosts: sovafree_ldap
+  user: root 
+
+- hosts: sovafree_sftp
+  user: root
+  roles:
+    - sovafree_sftp
+    - zabbix
+

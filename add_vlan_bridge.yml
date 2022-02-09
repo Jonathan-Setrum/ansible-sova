@@ -1,0 +1,4 @@
+- hosts: physical_server_setup
+  user: root
+  roles:
+    - add_vlan_bridge

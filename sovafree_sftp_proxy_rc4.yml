@@ -1,0 +1,19 @@
+- hosts: sovafreedev_proxy
+  user: root
+  roles:
+    - sovafree_proxy_rc4
+
+- hosts: sovafree_proxy
+  user: root
+  roles:
+    - sovafree_proxy_rc4
+
+- hosts: sovafreedev_sftp
+  user: root
+  roles:
+    - sovafree_sftp_rc4
+
+- hosts: sovafree_sftp
+  user: root
+  roles:
+    - sovafree_sftp_rc4

@@ -1,0 +1,18 @@
+[sovafree_ldap1]
+ldap1 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.251
+
+[sovafree_proxy]
+103.250.203.241 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+103.250.203.242 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+
+[sovafree_sftp]
+103.250.203.243 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+103.250.203.244 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+
+[sovafreedev_sftp]
+210.188.193.237 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+210.188.193.238 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+
+[sovafreedev_proxy]
+210.188.193.218 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+210.188.193.219 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'

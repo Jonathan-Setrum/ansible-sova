@@ -1,0 +1,4 @@
+- hosts: sovafree_ssh
+  user: root
+  roles:
+    - zabbix

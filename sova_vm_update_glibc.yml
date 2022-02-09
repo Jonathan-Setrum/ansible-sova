@@ -1,0 +1,35 @@
+- hosts: sova_vm
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_glibc
+
+- hosts: sovafree_vm
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_glibc
+
+- hosts: sova_vm_test
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_glibc
+
+- hosts: sovafree_vm_test
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_glibc
+
+- hosts: sova_vm_template
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_glibc
+
+- hosts: sovafree_vm_template
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_glibc

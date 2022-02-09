@@ -1,0 +1,193 @@
+[wordpress-server]
+192.168.33.2
+
+[db]
+192.168.33.3
+
+[common]
+192.168.33.(2..3)
+
+[ns1.sova.sg]
+103.250.200.8 ansible_ssh_port=10022
+
+[ns2.sova.sg]
+103.250.200.9 ansible_ssh_port=10022
+
+[sovafree_ssh]
+10.1.20.248 ansible_ssh_port=10022
+
+[zabbix_proxy]
+10.1.20.253 ansible_ssh_port=10022
+
+[openvz_master]
+10.1.20.240 ansible_ssh_port=22
+
+[openvz_server]
+10.1.20.230 ansible_ssh_port=22
+
+[sovafree_openvz_server]
+sovafree01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.171
+sovafree02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.172
+sovafree03 ansible_ssh_port=22 ansible_ssh_host=192.168.70.173
+
+[sovafree_ldap]
+ldap1 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.251
+ldap2 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.252
+
+[sovafree_ldap1]
+ldap1 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.251
+
+[sovafreedev_sftp]
+sovafreedev-sftp01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.237
+sovafreedev-sftp02 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.238
+
+[sovafree_sftp]
+sovafree-sftp01 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.243
+sovafree-sftp02 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.244
+
+[sovafreedev_proxy]
+sovafreedev-proxy01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.218
+sovafreedev-proxy02 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.219
+
+[sovafree_proxy]
+sovafree-proxy01 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.241
+sovafree-proxy02 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.242
+
+[physical_server_setup]
+midx01 ansible_ssh_port=10022 ansible_ssh_host=192.168.70.84
+
+[midx_ldap]
+midx_ldap01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.251
+midx_ldap02 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.252
+
+[midx_ldap01]
+midx_ldap01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.251
+
+[midx_ldap_client_private]
+##kd01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.83
+#midx01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.84
+#picup01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.91
+#dell098 ansible_ssh_port=22 ansible_ssh_host=192.168.70.74
+#sova-bk01 ansible_ssh_port=10022 ansible_ssh_host=192.168.70.161
+#sovafree-kvm01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.163
+#sovafree-kvm02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.164
+#town-dev ansible_ssh_port=22 ansible_ssh_host=192.168.70.78
+#town-server01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.69
+#town-server02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.70
+#town-server04 ansible_ssh_port=22 ansible_ssh_host=192.168.70.67
+#town-server05 ansible_ssh_port=22 ansible_ssh_host=192.168.70.68
+#town-server08 ansible_ssh_port=22 ansible_ssh_host=192.168.70.75
+#sova-openvztest01 ansible_ssh_port=10022 ansible_ssh_host=192.168.70.77
+#sovawp01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.79
+#sovawp02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.80
+#sovawp06 ansible_ssh_port=22 ansible_ssh_host=192.168.70.85
+#sovafree01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.171
+#sovafree02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.172
+#sovafree03 ansible_ssh_port=22 ansible_ssh_host=192.168.70.173
+
+[midx_ldap_client_global]
+##sova03 ansible_ssh_port=10022 ansible_ssh_host=103.250.200.3
+#sovadev01 ansible_ssh_port=10022 ansible_ssh_host=182.48.3.3
+#sova20 ansible_ssh_port=10022 ansible_ssh_host=103.250.202.10
+#sova21 ansible_ssh_port=10022 ansible_ssh_host=103.250.202.9
+#wordpress01 ansible_ssh_port=10022 ansible_ssh_host=182.48.4.2
+#sova01 ansible_ssh_port=10022 ansible_ssh_host=219.94.218.130
+#sova02 ansible_ssh_port=10022 ansible_ssh_host=103.250.200.2
+#sova04 ansible_ssh_port=10022 ansible_ssh_host=103.250.200.4
+#sova05 ansible_ssh_port=10022 ansible_ssh_host=103.250.200.5
+#sova06 ansible_ssh_port=10022 ansible_ssh_host=103.250.202.2
+#vsmsdev01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.233
+#sovafreedev-proxy01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.218
+#sovafreedev-proxy02 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.219
+#zabbix-freeplan01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.234
+#openvz-test01 ansible_ssh_port=22 ansible_ssh_host=10.1.53.1
+#openvz-test02 ansible_ssh_port=22 ansible_ssh_host=10.1.53.2
+#dmmm ansible_ssh_port=10022 ansible_ssh_host=182.48.4.7 ansible_ssh_user=ansible
+#ns1.sova.sg ansible_ssh_port=10022 ansible_ssh_host=103.250.200.8 ansible_ssh_user=chen
+#ns2.sova.sg ansible_ssh_port=10022 ansible_ssh_host=103.250.200.9 ansible_ssh_user=chen
+#sovafree-proxy01 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.241
+#sovafree-proxy02 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.242
+#sovafree-ssh01 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.247
+#sovafree-ssh02 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.248
+#sovafree-zabbixproxy01 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.253
+#openvz-master01 ansible_ssh_port=22 ansible_ssh_host=10.1.20.240
+#vsms01 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.250
+#mmm ansible_ssh_port=10022 ansible_ssh_host=182.48.4.16 ansible_ssh_user=ansible
+dpayment.sova.sg ansible_ssh_port=10022 ansible_ssh_host=182.48.4.14
+
+[ssh_limit_vpn]
+#midx01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.84
+#picup01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.91
+#dell098 ansible_ssh_port=22 ansible_ssh_host=192.168.70.74
+#town-dev ansible_ssh_port=22 ansible_ssh_host=192.168.70.78
+#town-server01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.69
+#town-server02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.70
+#town-server04 ansible_ssh_port=22 ansible_ssh_host=192.168.70.67
+#town-server05 ansible_ssh_port=22 ansible_ssh_host=192.168.70.68
+#town-server08 ansible_ssh_port=22 ansible_ssh_host=192.168.70.75
+#sovafree-kvm01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.163
+#sovafree-kvm02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.164
+#sovawp01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.79
+#sovawp02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.80
+#sovawp06 ansible_ssh_port=22 ansible_ssh_host=192.168.70.85
+#ns1.sova.sg ansible_ssh_port=10022 ansible_ssh_host=103.250.200.8 ansible_ssh_user=chen
+#ns2.sova.sg ansible_ssh_port=10022 ansible_ssh_host=103.250.200.9 ansible_ssh_user=chen
+
+[ssh_limit_admingroup]
+#zabbix02.sova.sg ansible_ssh_port=10022 ansible_ssh_host=133.242.224.133
+#varnish01 ansible_ssh_port=22 ansible_ssh_host=182.48.4.47
+#varnish02 ansible_ssh_port=22 ansible_ssh_host=182.48.4.48
+#sova-openvztest01 ansible_ssh_port=10022 ansible_ssh_host=192.168.70.77
+#sova-bk01 ansible_ssh_port=10022 ansible_ssh_host=192.168.70.161
+#sovadev01 ansible_ssh_port=10022 ansible_ssh_host=182.48.3.3
+#vsmsdev01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.233
+#sovafreedev-proxy01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.218
+#sovafreedev-proxy02 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.219
+#zabbix-freeplan01 ansible_ssh_port=10022 ansible_ssh_host=210.188.193.234
+#openvz-test01 ansible_ssh_port=22 ansible_ssh_host=10.1.53.1
+#openvz-test02 ansible_ssh_port=22 ansible_ssh_host=10.1.53.2
+#dmmm ansible_ssh_port=10022 ansible_ssh_host=182.48.4.7 ansible_ssh_user=ansible
+#dadmin.sova.sg ansible_ssh_port=10022 ansible_ssh_host=182.48.4.22
+#fadmin.sova.sg ansible_ssh_port=10022 ansible_ssh_host=182.48.4.42
+#sovafreedev_ldap01 ansible_ssh_port=10022 ansible_ssh_host=10.1.11.4
+#sovafreedev_ldap02 ansible_ssh_port=10022 ansible_ssh_host=10.1.11.5
+#jenkins ansible_ssh_port=10022 ansible_ssh_host=182.48.4.20
+#sova-cdn01-master ansible_ssh_port=10022 ansible_ssh_host=133.242.250.6
+#sova-cdn01-slave ansible_ssh_port=10022 ansible_ssh_host=133.242.250.7
+#admin.sova.sg ansible_ssh_port=10022 ansible_ssh_host=182.48.4.4
+#wordpress01 ansible_ssh_port=10022 ansible_ssh_host=182.48.4.2
+#sova01 ansible_ssh_port=10022 ansible_ssh_host=219.94.218.130
+#sova02 ansible_ssh_port=10022 ansible_ssh_host=103.250.200.2
+#sova04 ansible_ssh_port=10022 ansible_ssh_host=103.250.200.4
+#sova05 ansible_ssh_port=10022 ansible_ssh_host=103.250.200.5
+#sova06 ansible_ssh_port=10022 ansible_ssh_host=103.250.202.2
+#sovafree_ldap01 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.251
+#sovafree_ldap02 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.252
+#sovafree01 ansible_ssh_port=22 ansible_ssh_host=192.168.70.171
+#sovafree02 ansible_ssh_port=22 ansible_ssh_host=192.168.70.172
+#sovafree03 ansible_ssh_port=22 ansible_ssh_host=192.168.70.173
+#sova20 ansible_ssh_port=10022 ansible_ssh_host=103.250.202.10
+#sova21 ansible_ssh_port=10022 ansible_ssh_host=103.250.202.9
+#sovafree-proxy01 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.241
+#sovafree-proxy02 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.242
+#sovafree-ssh01 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.247
+#sovafree-ssh02 ansible_ssh_port=10022 ansible_ssh_host=10.1.20.248
+#sovafree-zabbixproxy01 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.253
+#openvz-master01 ansible_ssh_port=22 ansible_ssh_host=10.1.20.240
+#vsms01 ansible_ssh_port=10022 ansible_ssh_host=103.250.203.250
+#mmm ansible_ssh_port=10022 ansible_ssh_host=182.48.4.16 ansible_ssh_user=ansible
+dpayment.sova.sg ansible_ssh_port=10022 ansible_ssh_host=182.48.4.14
+
+[dpayment_server]
+dpayment.sova.sg ansible_ssh_port=10022 ansible_ssh_host=182.48.4.14
+
+[sova_cdn_dev]
+182.48.4.47 ansible_ssh_port=10022
+182.48.4.48 ansible_ssh_port=10022
+
+[sova_cdn]
+133.242.250.6 ansible_ssh_port=10022
+133.242.250.7 ansible_ssh_port=10022
+
+[aws_admin]
+awsadmin.sova.sg ansible_ssh_port=10022 ansible_ssh_host=54.169.102.44

@@ -1,0 +1,13 @@
+[sova_vm]
+
+[sova_vm_test]
+
+[sovafree_vm]
+
+[sovafree_vm_test]
+
+[sova_vm_template]
+182.48.4.10 ansible_ssh_port=10022
+
+[sovafree_vm_template]
+10.1.53.100 ansible_ssh_port=10022

@@ -1,0 +1,5 @@
+- hosts: openvz_server
+  user: root
+  roles:
+    - openvz_server
+    - zabbix

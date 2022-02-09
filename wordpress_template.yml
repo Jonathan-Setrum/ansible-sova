@@ -1,0 +1,11 @@
+- hosts: sova_vm_template
+  user: root
+  sudo: yes
+  roles:
+    - wordpress_template
+
+- hosts: sovafree_vm_template
+  user: root
+  sudo: yes
+  roles:
+    - wordpress_template

@@ -1,0 +1,9 @@
+- hosts: sovafreedev_proxy
+  user: root
+  roles:
+    - sovafree_proxy
+
+- hosts: sovafree_proxy
+  user: root
+  roles:
+    - sovafree_proxy

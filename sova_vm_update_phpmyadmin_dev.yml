@@ -1,0 +1,12 @@
+- hosts: sova_vm_test
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_phpmyadmin
+
+- hosts: sovafree_vm_test
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_phpmyadmin
+

@@ -1,0 +1,35 @@
+- hosts: sova_vm
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_fail2ban
+
+- hosts: sovafree_vm
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_fail2ban
+
+- hosts: sova_vm_test
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_fail2ban
+
+- hosts: sovafree_vm_test
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_fail2ban
+
+- hosts: sova_vm_temp
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_fail2ban
+
+- hosts: sovafree_vm_temp
+  user: root
+  sudo: yes
+  roles:
+    - sova_vm_update_fail2ban

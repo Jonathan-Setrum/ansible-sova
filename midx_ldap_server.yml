@@ -1,0 +1,13 @@
+- hosts: midx_ldap
+  user: root
+  sudo: yes
+  roles:
+    - midx_ldap
+    - midx_ldap_client
+    - zabbix
+
+- hosts: midx_ldap01
+  user: root
+  sudo: yes
+  roles:
+    - midx_ldap_primary

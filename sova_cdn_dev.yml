@@ -1,0 +1,4 @@
+- hosts: sova_cdn_dev
+  user: root
+  roles:
+    - sova_cdn

@@ -1,0 +1,4 @@
+- hosts: dpayment_server
+  user: root
+  roles:
+    - dpayment

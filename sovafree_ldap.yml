@@ -1,0 +1,10 @@
+- hosts: sovafree_ldap
+  user: root
+  roles:
+    - sovafree_ldap
+    - zabbix
+
+- hosts: sovafree_ldap1
+  user: root
+  roles:
+    - sovafree_ldap_primary

@@ -1,0 +1,5 @@
+- hosts: zabbix_proxy
+  user: root
+  roles:
+    - zabbix_proxy
+    - zabbix

@@ -1,0 +1,5 @@
+- hosts: physical_server_setup
+  user: root
+  roles:
+    - physical_server_setup
+    - zabbix

@@ -1,0 +1,12 @@
+- hosts: ssh_limit_vpn
+  user: root
+  sudo: yes
+  roles:
+    - ssh_host_limit
+
+- hosts: ssh_limit_admingroup
+  user: root
+  sudo: yes
+  roles:
+    - ssh_host_limit
+

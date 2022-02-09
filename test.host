@@ -1,0 +1,22 @@
+[sovafree_vm]
+
+[sovafree_vm_test]
+
+[sova_vm_template]
+182.48.4.10 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+
+[sovafree_vm_template]
+10.1.53.100 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+
+[sova_vm_test]
+182.48.3.222 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.220 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.232 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.242 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.234 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.245 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.244 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.219 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.221 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+182.48.3.217 ansible_ssh_port=10022 ansible_ssh_private_key_file='/home/jonathan/.ssh/sova'
+

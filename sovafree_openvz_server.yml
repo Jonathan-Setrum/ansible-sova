@@ -1,0 +1,5 @@
+- hosts: sovafree_openvz_server
+  user: root
+  roles:
+    - sovafree_openvz_server
+    - zabbix
