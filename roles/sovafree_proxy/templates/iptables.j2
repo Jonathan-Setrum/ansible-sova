@@ -1,0 +1,119 @@
+# Firewall configuration written by system-config-firewall
+# Manual customization of this file is not recommended.
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+
+# Bluecoat -j DROP
+-A INPUT -s 8.21.4.254 -j DROP
+-A INPUT -s 65.46.48.192/30 -j DROP
+-A INPUT -s 65.160.238.176/28 -j DROP
+-A INPUT -s 85.92.222.0/24 -j DROP
+-A INPUT -s 206.51.36.0/22 -j DROP
+-A INPUT -s 216.52.23.0/24 -j DROP
+
+# cyveillance -j DROP
+-A INPUT -s 38.100.19.8/29 -j DROP
+-A INPUT -s 38.100.21.0/24 -j DROP
+-A INPUT -s 38.100.41.64/26 -j DROP
+-A INPUT -s 38.105.71.0/25 -j DROP
+-A INPUT -s 38.105.83.0/27 -j DROP
+-A INPUT -s 38.112.21.140/30 -j DROP
+-A INPUT -s 38.118.42.32/29 -j DROP
+-A INPUT -s 65.213.208.128/27 -j DROP
+-A INPUT -s 65.222.176.96/27 -j DROP
+-A INPUT -s 65.222.185.72/29 -j DROP
+
+# Cyberpatrol -j DROP
+-A INPUT -s 38.103.17.160/27 -j DROP
+
+# Internet Identity - Anti-Phishing -j DROP
+-A INPUT -s 66.113.96.0/20 -j DROP
+-A INPUT -s 70.35.113.192/27 -j DROP
+
+# Ironport -j DROP
+-A INPUT -s 204.15.80.0/22 -j DROP
+
+# Lightspeed Systems Security -j DROP
+-A INPUT -s 66.17.15.128/26 -j DROP
+-A INPUT -s 69.84.207.32/27 -j DROP
+-A INPUT -s 69.84.207.128/25 -j DROP
+
+# Layered Technologies -j DROP
+-A INPUT -s 72.36.128.0/17 -j DROP
+-A INPUT -s 72.232.0.0/16 -j DROP
+-A INPUT -s 72.233.0.0/17 -j DROP
+-A INPUT -s 216.32.0.0/14 -j DROP
+
+# M86 -j DROP
+-A INPUT -s 67.192.231.224/29 -j DROP
+-A INPUT -s 208.90.236.0/22 -j DROP
+
+# Phish-Inspector.com -j DROP
+-A INPUT -s 209.147.127.208/28 -j DROP
+
+# Prescient Software, Inc. Phishmongers -j DROP
+-A INPUT -s 198.186.190.0/23 -j DROP
+-A INPUT -s 198.186.192.0/23 -j DROP
+-A INPUT -s 198.186.194.0/24 -j DROP
+
+# urlfilterdb -j DROP
+-A INPUT -s 207.210.99.32/29 -j DROP
+
+# websense-in.car1.sandiego1.level3.net -j DROP
+-A INPUT -s 4.53.120.22 -j DROP
+
+# Websense -j DROP
+-A INPUT -s 66.194.6.0/24 -j DROP
+-A INPUT -s 67.117.201.128/28 -j DROP
+-A INPUT -s 69.67.32.0/20 -j DROP
+-A INPUT -s 131.191.87.0/24 -j DROP
+-A INPUT -s 204.15.64.0/21 -j DROP
+-A INPUT -s 208.80.192.0/21 -j DROP
+-A INPUT -s 212.62.26.64/27 -j DROP
+-A INPUT -s 213.168.226.0/24 -j DROP
+-A INPUT -s 213.168.241.0/30 -j DROP
+-A INPUT -s 213.168.242.0/30 -j DROP
+-A INPUT -s 213.236.150.16/28 -j DROP
+
+# Add new ip address -j DROP
+-A INPUT -s 94.102.49.179 -j DROP
+-A INPUT -s 23.94.30.91 -j DROP
+-A INPUT -s 162.248.98.154 -j DROP
+-A INPUT -s 176.227.196.86 -j DROP
+-A INPUT -s 195.154.105.219 -j DROP
+-A INPUT -s 195.154.136.19 -j DROP
+-A INPUT -s 195.154.126.240 -j DROP
+-A INPUT -s 92.222.218.105 -j DROP
+-A INPUT -s 92.222.216.36 -j DROP
+-A INPUT -s 194.28.172.80 -j DROP
+-A INPUT -s 176.227.196.90 -j DROP
+-A INPUT -s 192.3.207.66 -j DROP
+-A INPUT -s 89.248.164.55 -j DROP
+-A INPUT -s 93.158.202.49 -j DROP
+-A INPUT -s 74.52.63.226 -j DROP
+-A INPUT -s 43.254.40.25 -j DROP
+-A INPUT -s 199.167.192.120 -j DROP
+-A INPUT -s 180.102.202.115 -j DROP
+-A INPUT -s 94.102.52.157 -j DROP
+-A INPUT -s 64.186.146.87 -j DROP
+-A INPUT -s 27.152.0.0/13 -j DROP
+-A INPUT -s 36.248.0.0/14 -j DROP
+-A INPUT -s 222.76.0.0/14 -j DROP
+-A INPUT -s 140.237.0.0/16 -j DROP
+-A INPUT -s 220.160.0.0/15 -j DROP
+-A INPUT -s 110.80.0.0/13 -j DROP
+-A INPUT -s 110.88.0.0/14 -j DROP
+
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 10022 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 10050 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+-A INPUT -p vrrp -j ACCEPT
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+COMMIT

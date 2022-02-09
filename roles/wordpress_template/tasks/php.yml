@@ -1,0 +1,16 @@
+#- name: be sure php is installed
+#  yum: pkg=php state=installed
+#  notify:
+#    - restart httpd
+#  tags: php
+#
+#- name: be sure php-mysql is installed
+#  yum: pkg=php-mysql state=installed
+#  notify:
+#    - restart httpd
+#  tags: php
+#
+#- name: disable password authentication
+#  lineinfile: dest=/etc/php.ini regexp='^;date.timezone =' line='date.timezone = Asia/Tokyo' owner=root group=root mode=0644
+#  notify: restart httpd
+#  tags: php

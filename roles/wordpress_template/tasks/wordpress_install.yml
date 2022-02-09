@@ -1,0 +1,93 @@
+# backup for previous directory
+- name: backup exsisting htm-ja
+  shell: mv /root/html-ja /root/html-ja_`date +%Y-%m-%d-%H:%M:%S`
+  ignore_errors: True
+
+- name: backup exsisting  html-en
+  shell: mv /root/html-en /root/html-en_`date +%Y-%m-%d-%H:%M:%S`
+  ignore_errors: True
+
+# download plugins
+- name: download plugins
+  local_action: get_url url={{ wp_plugin_url }}{{ item }} dest=/tmp force=yes
+  sudo: false
+  with_items:
+    - "{{ varnish_http_purge }}"
+    - "{{ wp_multibyte_patch }}"
+    - "{{ wp_updates_notifier }}"
+    - "{{ akismet }}"
+
+# wordpress for ja
+- name: download latest wordpress
+  sudo: false
+  local_action: get_url url={{ wp_package_ja }} dest=/tmp/{{ wp_zip_ja }} force=yes
+  tags:
+    - task8559
+
+- name: unzip wordpress zip file
+  unarchive: src=/tmp/{{ wp_zip_ja }} dest=/root/ owner=sova group=sova
+
+- name: copy wp-config-sova.php
+  copy: src=wp-config-sova.php.ja dest=/root/wordpress/wp-config-sova.php owner=sova group=sova mode=0644
+
+- name: copy wp-config.php
+  copy: src=wp-config.php.ja dest=/root/wordpress/wp-config.php owner=sova group=sova mode=0644
+
+# install plugin for ja
+- name: install varnish_http_purge
+  unarchive: src=/tmp/{{ item }} dest=/root/wordpress/wp-content/plugins/ owner=sova group=sova
+  with_items:
+    - "{{ varnish_http_purge }}"
+    - "{{ wp_multibyte_patch }}"
+    - "{{ wp_updates_notifier }}"
+    - "{{ akismet }}"
+
+# rename html-ja
+- name: move to html-ja
+  command: mv /root/wordpress/ /root/html-ja
+
+- name: change owner
+  command: chown -R sova:sova /root/html-ja
+
+
+# wordpress for english
+- name: download latest wordpress
+  sudo: false
+  local_action: get_url url={{ wp_package_en }} dest=/tmp/{{ wp_zip_en }} force=yes
+
+- name: unzip wordpress zip file
+  unarchive: src=/tmp/{{ wp_zip_en }} dest=/root/ owner=sova group=sova
+
+- name: copy wp-config-sava.php
+  copy: src=wp-config-sova.php.en dest=/root/wordpress/wp-config-sova.php owner=sova group=sova mode=0644
+
+- name: copy wp-config.php
+  copy: src=wp-config.php.en dest=/root/wordpress/wp-config.php owner=sova group=sova mode=0644
+
+# install plugins for en
+- name: install varnish_http_purge
+  unarchive: src=/tmp/{{ item }} dest=/root/wordpress/wp-content/plugins/ owner=sova group=sova
+  with_items:
+    - "{{ varnish_http_purge }}"
+    - "{{ wp_multibyte_patch }}"
+    - "{{ wp_updates_notifier }}"
+    - "{{ akismet }}"
+
+# rename html-en
+- name: move to html-en
+  command: mv /root/wordpress/ /root/html-en
+
+- name: change owner
+  command: chown -R sova:sova /root/html-en
+
+# Create plugins directory and copy languages mo and po file
+- name: Create plugins directory
+  file: path=/root/html-ja/wp-content/languages/plugins state=directory owner=sova group=sova mode=0755
+
+- name: copy languages mo and po file
+  copy: src={{ item }} dest=/root/html-ja/wp-content/languages/plugins/{{ item }} owner=sova group=sova mode=0644
+  with_items:
+    - varnish-http-purge-ja.mo
+    - varnish-http-purge-ja.po
+    - wp-updates-notifier-ja.mo
+    - wp-updates-notifier-ja.po

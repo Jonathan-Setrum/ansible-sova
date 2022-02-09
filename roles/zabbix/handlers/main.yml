@@ -1,0 +1,8 @@
+---
+- name: restart zabbix-agent
+  service: name=zabbix-agent state=restarted
+  ignore_errors: True
+
+- name: restart iptables
+  service: name=iptables state=restarted
+  ignore_errors: True

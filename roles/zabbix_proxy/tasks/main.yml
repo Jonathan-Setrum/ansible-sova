@@ -1,0 +1,42 @@
+---
+- name: Install zabbix repository
+  yum: name={{ zabbix_rep }} state=present
+
+- name: Install zabbix-proxy
+  yum: name={{ item }} state=present
+  with_items:
+  - sqlite
+  - zabbix-proxy-sqlite3
+
+- name: create sqlite file directory
+  file: path=/var/lib/sqlite state=directory owner=zabbix group=zabbix mode=0755
+
+- name: check sqlite database file
+  stat: path=/var/lib/sqlite/zabbix.db
+  register: sqlitedbfile
+
+- name: create sqlite database
+  shell: sqlite3 /var/lib/sqlite/zabbix.db < /usr/share/doc/zabbix-proxy-sqlite3-2.2.3/create/schema.sql
+  when: not sqlitedbfile.stat.exists
+
+- name: change file permissions
+  file: path=/var/lib/sqlite/zabbix.db owner=zabbix group=zabbix mode=0644
+
+- name: write the zabbix proxy config file
+  template: src=zabbix_proxy.conf.j2 dest=/etc/zabbix/zabbix_proxy.conf
+  notify:
+  - restart zabbix-proxy
+
+- name: zabbix-proxy service state
+  service: name=zabbix-proxy state=started enabled=yes
+
+- name: change hosts.allow and hosts.deny for limit of sshd
+  template: src={{ item }}.j2 dest=/etc/{{ item }}
+  with_items:
+  - hosts.allow
+  - hosts.deny
+
+- name: insert iptables rule
+  lineinfile: dest=/etc/sysconfig/iptables state=present insertafter="^-A INPUT -m state --state NEW -m tcp -p tcp --dport 10022 -j ACCEPT" line="-A INPUT -m state --state NEW -m tcp -p tcp --dport 10051 -j ACCEPT"
+  notify:
+  - restart iptables

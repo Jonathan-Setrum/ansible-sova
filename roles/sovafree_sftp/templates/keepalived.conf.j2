@@ -1,0 +1,44 @@
+vrrp_script chk_sshd {
+        script "/usr/bin/killall -0 sshd"
+        interval 2
+        weight 2
+}
+
+global_defs {
+ notification_email {
+      zabbix@midx.jp
+ }
+ notification_email_from zabbix@midx.jp
+ smtp_server localhost
+ smtp_connect_timeout 30
+ router_id sovafree_sftp
+
+}
+
+vrrp_instance VI_NODE {
+{% if inventory_hostname == "sftp1" %}
+ state MASTER
+{% else %}
+ state BACKUP
+{% endif %}
+ interface  eth0
+ virtual_router_id  {{ sftp_virtual_router_id }}
+{% if inventory_hostname == "sftp1" %}
+ priority  150
+{% else %}
+ priority  100
+{% endif %}
+ advert_int 1
+
+ authentication {
+        auth_type PASS
+        auth_pass onigiri0517
+ }
+ track_script {
+        chk_sshd
+ }
+ virtual_ipaddress {
+        {{ sftp_virtual_ipaddress }}
+ }
+}
+

@@ -1,0 +1,7 @@
+- name: yum update
+  yum: name=openssh state=latest
+
+- name: copy sshd_config
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config  owner=root group=root mode=0600 force=yes
+  notify:
+  - restart sshd

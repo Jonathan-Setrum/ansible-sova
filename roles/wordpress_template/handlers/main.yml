@@ -1,0 +1,8 @@
+- name: restart httpd
+  service: name=httpd state=restarted
+
+- name: change wordpress files owner and permisson
+  file: path=/root/html-ja owner=sova group=sova mode=0644 state=directory recurse=yes
+
+- name: change wordpress-en files owner and permisson
+  file: path=/root/html-en owner=sova group=sova mode=0644 state=directory recurse=yes

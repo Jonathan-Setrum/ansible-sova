@@ -1,0 +1,35 @@
+---
+- name: yum update
+  yum: name=* state=latest
+
+- name: Install keepalived and nc
+  yum: name={{ item }} state=present
+  with_items:
+  - keepalived
+  - nc
+
+
+- name: write the keepalived config file
+  template: src=keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf
+  notify:
+  - restart keepalived
+
+- name: keepalived service state
+  service: name=keepalived state=started enabled=yes
+
+- name: insert iptables rule
+  lineinfile: dest=/etc/sysconfig/iptables state=present insertafter="^-A INPUT -m state --state NEW -m tcp -p tcp --dport 10022 -j ACCEPT" line="-A INPUT -p vrrp -j ACCEPT"
+  notify:
+  - restart iptables
+
+- name: write the sshd config file
+  copy: src={{ item }}.j2 dest=/etc/ssh/{{ item }}
+  with_items:
+  - ssh_host_dsa_key
+  - ssh_host_dsa_key.pub
+  - ssh_host_key
+  - ssh_host_key.pub
+  - ssh_host_rsa_key
+  - ssh_host_rsa_key.pub  
+  notify:
+  - restart sshd

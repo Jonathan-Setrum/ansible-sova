@@ -1,0 +1,19 @@
+---
+- name: Install zabbix repository
+  yum: name={{ zabbix_rep }} state=present
+
+- name: Install zabbix agent
+  yum: name=zabbix-agent state=present
+
+- name: write the zabbix config file
+  template: src=zabbix_agentd.conf.j2 dest=/etc/zabbix/zabbix_agentd.conf
+  notify:
+  - restart zabbix-agent
+
+- name: zabbix-agent service state
+  service: name=zabbix-agent state=started enabled=yes
+
+- name: insert iptables rule
+  lineinfile: dest=/etc/sysconfig/iptables state=present regexp="{{ zabbix_agent_port }}" insertbefore="^-A INPUT -m state --state NEW -m tcp -p tcp --dport 10022 -j ACCEPT" line="-A INPUT -m state --state NEW -m tcp -p tcp --dport {{ zabbix_agent_port }} -j ACCEPT"
+  notify:
+  - restart iptables

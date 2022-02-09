@@ -1,0 +1,16 @@
+---
+- name: change ssh of pam.d for limit of sshd
+  template: src={{ item }}.j2 dest=/etc/pam.d/{{ item }}
+  with_items:
+  - sshd
+  - crond
+  notify:
+  - reload sshd
+
+- name: change access.conf of security for limit of sshd
+  template: src={{ item }}.j2 dest=/etc/security/{{ item }}
+  with_items:
+  - access.conf
+  notify:
+  - reload sshd
+

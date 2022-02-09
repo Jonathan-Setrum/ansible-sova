@@ -1,0 +1,19 @@
+- name: yum update
+  yum: name=openssh state=latest
+
+- name: copy sshd_config
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config  owner=root group=root mode=0600 force=yes
+  notify:
+  - restart sshd
+
+- name: write the sshd config file
+  copy: src={{ item }}.j2 dest=/etc/ssh/{{ item }}
+  with_items:
+  - ssh_host_dsa_key
+  - ssh_host_dsa_key.pub
+  - ssh_host_key
+  - ssh_host_key.pub
+  - ssh_host_rsa_key
+  - ssh_host_rsa_key.pub
+  notify:
+  - restart sshd

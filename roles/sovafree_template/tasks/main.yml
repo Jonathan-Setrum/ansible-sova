@@ -1,0 +1,30 @@
+---
+- name: Install nfs-utils
+  yum: name=nfs-utils state=present
+
+- name: change exports and netconfig
+  template: src={{ item }}.j2 dest=/etc/{{ item }}
+  with_items:
+  - exports
+  - netconfig
+
+- name: insert iptables rule
+  template: src=iptables.j2 dest=/etc/sysconfig/iptables
+  notify:
+  - restart iptables
+
+- name: rpcbind, nfslock and nfs service state
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+  - rpcbind
+  - nfslock
+  - nfs
+
+- name: check exports and netconfig
+  template: src={{ item }}.j2 dest=/etc/{{ item }}
+  with_items:
+  - exports
+  - netconfig
+  notify:
+  - restart nfs
+

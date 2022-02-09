@@ -1,0 +1,56 @@
+---
+- name: yum update
+  yum: name=* state=latest
+
+- name: install the latest necessary packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - openldap-clients
+    - nss-pam-ldapd
+    - nscd
+    - nfs-utils
+    - autofs
+    - keepalived
+
+- name: write the keepalived config file
+  template: src=keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf
+  notify:
+  - restart keepalived
+
+- name: configurate authentication
+  command: /usr/sbin/authconfig --update --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://{{ hostvars['ldap1']['ansible_default_ipv4']['address'] }}:389,ldap://{{ hostvars['ldap2']['ansible_default_ipv4']['address'] }}:389 --ldapbasedn={{ domain_suffix }} --enablemkhomedir
+
+- name: configure bind DN in pam_ldap.conf
+  lineinfile: dest=/etc/pam_ldap.conf regexp='^binddn ' line="binddn {{ domain_root_dn }}" state=present
+
+- name: configure bind password in pam_ldap.conf
+  lineinfile: dest=/etc/pam_ldap.conf regexp='^bindpw' line="bindpw {{ domain_rootdn_password }}" state=present
+
+- name: configure password change protocol in pam_ldap.conf
+  lineinfile: dest=/etc/pam_ldap.conf regexp='^pam_password' line="pam_password exop" state=present
+
+- name: copy nslcd.conf
+  template: src=nslcd.conf.j2 dest=/etc/nslcd.conf owner=root group=root mode=0600 force=yes
+
+- name: copy autofs config file
+  template: src=autofs.j2 dest=/etc/sysconfig/autofs owner=root group=root mode=0644 force=yes
+
+- name: copy autofs_ldap_auth.conf
+  template: src=autofs_ldap_auth.conf.j2 dest=/etc/autofs_ldap_auth.conf owner=root group=root mode=0600 force=yes
+
+- name: create a base directory for sftp users
+  file: path=/{{ my_group }} state=directory owner=root group=root mode=0755
+
+- name: copy iptables to configuration
+  template: src=iptables.j2 dest=/etc/sysconfig/iptables
+  notify:
+  - restart iptables
+
+- name: restart services
+  service: name={{ item }} enabled=yes state=restarted
+  with_items:
+    - nslcd
+    - autofs
+    - keepalived
+    - rpcbind
+

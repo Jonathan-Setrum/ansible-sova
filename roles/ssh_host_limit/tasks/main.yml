@@ -1,0 +1,7 @@
+---
+- name: change hosts.allow and hosts.deny for limit of sshd
+  template: src={{ item }}.j2 dest=/etc/{{ item }}
+  with_items:
+  - hosts.allow
+  - hosts.deny
+

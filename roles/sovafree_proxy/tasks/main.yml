@@ -1,0 +1,17 @@
+---
+- name: change iptables
+  template: src={{ item }}.j2 dest=/etc/sysconfig/{{ item }} backup=yes
+  with_items:
+  - iptables
+  notify:
+  - restart iptables
+
+- name: yum update
+  yum: name=nginx state=latest
+
+- name: copy default.conf
+  template: src={{ item }}.j2 dest=/etc/nginx/conf.d/{{ item }} backup=yes
+  with_items:
+  - default.conf
+  notify:
+  - restart nginx
