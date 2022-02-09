@@ -1,0 +1,6 @@
+---
+- name: update bash package
+  yum: name={{ item }} state=latest
+  with_items:
+  - bash
+

@@ -1,0 +1,13 @@
+---
+- name: remove old configuration
+  shell: rm -rf {{ item }}
+  with_items:
+  - /etc/php.ini.2*
+  - /etc/zabbix/zabbix_agentd.conf.2*
+  - /etc/postfix/virtual.2*
+  - /etc/postfix/main.cf.2*
+  - /etc/phpMyAdmin/config.inc.php.2*
+  - /etc/httpd/conf.d/ssl.conf.2*
+  - /root/.s3cfg.2*
+  - /root/scripts/backup.sh.2*
+

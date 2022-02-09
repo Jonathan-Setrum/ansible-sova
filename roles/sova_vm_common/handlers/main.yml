@@ -1,0 +1,24 @@
+---
+- name: reload httpd
+  service: name=httpd state=reloaded
+  ignore_errors: True
+
+- name: restart varnish
+  service: name=varnish state=restarted
+  ignore_errors: True
+
+- name: reload postfix
+  service: name=postfix state=reloaded
+  ignore_errors: True
+
+- name: restart httpd
+  service: name=httpd state=restarted
+  ignore_errors: True
+
+- name: restart zabbix-agent
+  service: name=zabbix-agent state=restarted
+  ignore_errors: True
+
+- name: restart mysql
+  service: name=mysql state=restarted
+  ignore_errors: True

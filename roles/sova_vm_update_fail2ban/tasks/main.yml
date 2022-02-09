@@ -1,0 +1,12 @@
+---
+- name: update fail2ban package
+  yum: name={{ item }} state=latest
+  with_items:
+  - fail2ban
+
+- name: change iptables-blocktype.conf
+  template: src={{ item }}.j2 dest=/etc/{{ item }} backup=yes
+  with_items:
+    - iptables-blocktype.conf
+  notify:
+    - reload fail2ban

@@ -1,0 +1,17 @@
+---
+- name: check and change iptables on sova paid instances
+  template: src={{ item }}.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0644 backup=yes
+  with_items:
+  - iptables.sova-paid 
+  notify:
+  - reload iptables
+  when: "('sova_vm_template' in group_names or 'sova_vm' in group_names or 'sova_vm_test' in group_names) and inventory_hostname!='219.94.218.170'"
+
+- name: check and change iptables on sovafree proxy
+  template: src={{ item }}.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0644 backup=yes
+  with_items:
+  - iptables.sovafree-proxy 
+  notify:
+  - reload iptables
+  when: "'sovafree_proxy' in group_names or 'sovafreedev_proxy' in group_names"
+

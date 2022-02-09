@@ -1,0 +1,5 @@
+---
+- name: remove rkhunter package
+  yum: name={{ item }} state=absent
+  with_items:
+  - rkhunter

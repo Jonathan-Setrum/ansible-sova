@@ -1,0 +1,149 @@
+---
+#- name: update zabbix-agent package
+#  yum: name={{ item }} state=latest
+#  with_items:
+#  - zabbix-agent
+#  when: "'sova_vm' in group_names or 'sova_vm_test' in group_names"
+#  notify:
+#  - restart zabbix-agent
+#
+- name: update MariaDB package
+  yum: name={{ item }} state=latest
+  with_items:
+  - MariaDB*
+  notify:
+  - restart mysql
+
+- name: update openssl package
+  yum: name={{ item }} state=latest
+  with_items:
+  - openssl
+  notify:
+  - restart httpd
+
+- name: check and change zabbix configuration file
+  template: src={{ item }}.j2 dest=/etc/zabbix/{{ item }} backup=yes
+  with_items:
+  - zabbix_agentd.conf
+  notify:
+  - restart zabbix-agent
+
+- name: check and change /var/lib/php/session
+  file: path={{ item }} owner=500 group=500 state=directory recurse=yes
+  with_items:
+  - /var/lib/php/session
+
+- name: check and change /usr/bin/unzip and /usr/bin/zipinfo
+  command: chmod 700 {{ item }}
+  with_items:
+  - /usr/bin/unzip
+  - /usr/bin/zipinfo
+
+- name: check and change /usr/bin/wget
+  file: path={{ item }} owner=root group=root state=file mode=0000
+  with_items:
+  - /usr/bin/wget
+
+- name: disable ssl_v3
+  lineinfile: dest=/etc/httpd/conf.d/ssl.conf regexp="^SSLProtocol all -SSLv2$" insertafter="#SSLProtocol all -SSLv2" line="SSLProtocol All -SSLv2 -SSLv3" backup=yes
+  notify:
+  - restart httpd
+  
+- name: copy check_sslv3.sh to /tmp/
+  template: src={{ item }}.j2 dest=/tmp/{{ item }} owner=root group=root mode=0755
+  with_items:
+  - check_sslv3.sh
+
+- name: check sslv3 status
+  command: /tmp/check_sslv3.sh
+  register: check_sslv3_df
+
+- name: show sslv3 status
+  debug: var=check_sslv3_df.stdout_lines
+
+- name: rm /tmp/check_sslv3.sh
+  file: path=/tmp/check_sslv3.sh state=absent
+
+- name: change resolv.conf
+  template: src={{ item }}.j2 dest=/etc/{{ item }} owner=root group=root mode=0644
+  with_items:
+  - resolv.conf
+  notify:
+  - reload httpd
+  - restart varnish
+  - reload postfix
+
+- name: copy check_html_disk_size.conf to /etc/zabbix/zabbix_agentd.d/
+  template: src={{ item }}.j2 dest=/etc/zabbix/zabbix_agentd.d/{{ item }} owner=root group=root mode=0644
+  with_items:
+  - check_html_disk_size.conf
+  notify:
+  - restart zabbix-agent
+
+- name: sova_ssl_add_crt
+  template: src={{ item }}.j2 dest=/etc/pki/tls/certs/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - server-chain.crt
+  tags:
+    - task_7610
+  notify:
+    - restart httpd
+  
+- name: sova_ssl_change_conf
+  lineinfile: backup=yes state=present dest=/etc/httpd/conf.d/ssl.conf regexp='^#?SSLCertificateChainFile' line='SSLCertificateChainFile'
+  tags:
+    - task_7610
+  notify:
+    - restart httpd
+
+#- name: task_8482_mysql
+#  template: src=t8482/my.cnf.d/{{ item }}.j2 dest=/etc/my.cnf.d/{{ item }} owner=root group=root mode=0644
+#  with_items:
+#    - server.cnf
+#    - performance.cnf
+#  tags:
+#    - task_8482a
+#  notify:
+#    - restart mysql
+
+#- name: task_8482_varnish
+#  template: src=t8482/sysconfig/{{ item }}.j2 dest=/etc/sysconfig/{{ item }} owner=root group=root mode=0644
+#  with_items:
+#    - varnish
+#    - varnish.ext
+#  tags:
+#    - task_8482a
+#  notify:
+#    - reload httpd
+#    - restart varnish
+
+#- name: task_8482_zabbix
+#  template: src=t8482/zabbix/{{ item }}.j2 dest=/etc/zabbix/{{ item }} owner=root group=root mode=0644
+#  with_items:
+#  - zabbix_agentd.conf
+#  - zabbix_agentd.d/hostname.conf
+#  tags:
+#    - task_8482b
+#  notify:
+#    - restart zabbix-agent
+
+#- name: task_8482_httpd
+#  template: src=t8482/httpd/{{ item }}.j2 dest=/etc/httpd/{{ item }} owner=root group=root mode=0644
+#  with_items:
+#    - conf/httpd.conf
+#    - conf.d/user.conf
+#  tags:
+#    - task_8482b
+#  notify:
+#    - reload httpd
+#    - restart varnish
+
+# - name: stat welcome_conf
+#  stat: path=/etc/httpd/conf.d/welcome.conf
+#  register: welcome_conf_stat
+
+#- name: mv /etc/httpd/conf.d/welcome.conf /tmp/
+##  command: mv /etc/httpd/conf.d/welcome.conf /tmp/
+#  when: welcome_conf_stat.stat.exists
+#  notify:
+#  - reload httpd

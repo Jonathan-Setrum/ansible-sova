@@ -1,0 +1,4 @@
+---
+- name: create /var/log/lastlog
+  file: path=/var/log/lastlog state=touch
+

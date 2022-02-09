@@ -1,0 +1,5 @@
+---
+- name: check and change /etc/logrotate.conf file
+  template: src={{ item }}.j2 dest=/etc/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - logrotate.conf

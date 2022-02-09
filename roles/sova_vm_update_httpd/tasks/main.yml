@@ -1,0 +1,78 @@
+---
+- name: update httpd package
+  yum: name={{ item }} state=latest
+  with_items:
+  - httpd
+
+- name: check and change /var/www (apache)
+  file: path={{ item }} owner=root group=root state=directory mode=0755
+  with_items:
+  - /var/www
+
+- name: check and change /var/www/html on sova_vm and sovafree_vm (apache)
+  file: path={{ item }} owner=500 group=500 state=directory mode=0755
+  with_items:
+  - /var/www/html
+  when: "'sova_vm' in group_names or 'sovafree_vm' in group_names or 'sova_vm_test' in group_names or 'sovafree_vm_test' in group_names"
+
+#- name: check /var/www/icons
+#  stat: path=/var/www/icons
+#  register: www_icons
+#
+#- name: move the file and delete /var/www/icons (apache)
+#  shell: mv -f /var/www/icons/* /var/www2/icons; rm -rf /var/www/icons
+#  when: www_icons.stat.exists
+
+- name: update config in /etc/httpd/conf.d
+  template: src={{ item }}.conf.j2 dest=/etc/httpd/conf.d/{{ item }}.conf owner=root group=root mode=644 backup=yes
+  with_items:
+    - vary
+    - 000-remoteip
+    - badbot
+    - ssl
+  tags:
+    - httpd
+
+- stat: path=/etc/httpd/conf.d/ssl.d/key.conf
+  register: key_conf
+- stat: path=/etc/httpd/conf.d/ssl.d/key.conf.disabled
+  register: key_conf_disabled
+
+- name: update config in /etc/httpd/conf.d/ssl.d
+  template: src={{ item }}.conf.j2 dest=/etc/httpd/conf.d/ssl.d/{{ item }}.conf owner=root group=root mode=644
+  with_items:
+    - key
+  tags:
+    - httpd
+  notify:
+    - reload httpd
+  when: (key_conf.stat.exists == False and key_conf_disabled.stat.exists == False)
+
+- name: update config in /etc/httpd/conf/
+  template: src={{ item }}.conf.j2 dest=/etc/httpd/conf/{{ item }}.conf owner=root group=root mode=644 backup=yes
+  with_items:
+    - httpd
+
+- name: copy httpd to /etc/logrotate.d/
+  template: src={{ item }}.j2 dest=/etc/logrotate.d/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - httpd
+
+- name: stat welcome_conf
+  stat: path=/etc/httpd/conf.d/welcome.conf
+  register: welcome_conf_stat
+
+- name: mv /etc/httpd/conf.d/welcome.conf /tmp/
+  command: mv /etc/httpd/conf.d/welcome.conf /tmp/
+  when: welcome_conf_stat.stat.exists
+  notify:
+  - reload httpd
+
+- name: upload mod_remoteip.so
+  copy: src=mod_remoteip.so dest=/etc/httpd/modules/mod_remoteip.so owner=root group=root mode=0755
+  notify:
+  - restart httpd
+
+- name: restart httpd
+  service: name=httpd enabled=yes state=restarted
+  when: "'sova_vm' in group_names or 'sovafree_vm' in group_names or 'sova_vm_test' in group_names or 'sovafree_vm_test' in group_names"

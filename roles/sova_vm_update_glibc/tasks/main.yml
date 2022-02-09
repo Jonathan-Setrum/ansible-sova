@@ -1,0 +1,8 @@
+- name: update glibc package and dependancies
+  yum: name={{ item }} state=latest
+  with_items:
+  - glibc
+  - glibc-common
+  - glibc-headers
+  - glibc-devel
+  - nscd

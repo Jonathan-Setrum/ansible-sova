@@ -1,0 +1,101 @@
+# Add newer tasks to top
+
+# Task#9079
+- name: task_9079_3
+  command: rm -f /etc/logrotate.d/httpd_fail2ban_post
+  tags:
+    - fail2ban_9079
+- name: task_9079_4
+  command: rm -f /var/log/httpd/fail2ban_post{,-*}
+  tags:
+    - fail2ban_9079
+
+# Task#8414
+- name: stat apache_wordpress_conf
+  stat: path=/etc/fail2ban/filter.d/apache-wordpress.conf
+  register: apache_wordpress_conf
+  tags:
+    - fail2ban_8414
+- name: mv /etc/fail2ban/filter.d/apache-wordpress.conf
+  command: mv /etc/fail2ban/filter.d/apache-wordpress.conf /etc/fail2ban/filter.d/wordpress.conf
+  when: apache_wordpress_conf.stat.exists
+  tags:
+    - fail2ban_8414
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: stat apache_wordpress_dos_conf
+  stat: path=/etc/fail2ban/filter.d/apache-wordpress-dos.conf
+  register: apache_wordpress_dos_conf
+  tags:
+    - fail2ban_8414
+- name: mv /etc/fail2ban/filter.d/apache-wordpress-dos.conf
+  command: mv /etc/fail2ban/filter.d/apache-wordpress-dos.conf /etc/fail2ban/filter.d/wordpress-dos.conf
+  when: apache_wordpress_dos_conf.stat.exists
+  tags:
+    - fail2ban_8414
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: stat apache_wordpress_login_conf
+  stat: path=/etc/fail2ban/filter.d/apache-wordpress-login.conf
+  register: apache_wordpress_login_conf
+  tags:
+    - fail2ban_8414
+- name: mv /etc/fail2ban/filter.d/apache-wordpress-login.conf
+  command: mv /etc/fail2ban/filter.d/apache-wordpress-login.conf /etc/fail2ban/filter.d/wordpress-login.conf
+  when: apache_wordpress_login_conf.stat.exists
+  tags:
+    - fail2ban_8414
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: stat apache_wordpress_spam_conf
+  stat: path=/etc/fail2ban/filter.d/apache-wordpress-spam.conf
+  register: apache_wordpress_spam_conf
+  tags:
+    - fail2ban_8414
+- name: mv /etc/fail2ban/filter.d/apache-wordpress-spam.conf
+  command: mv /etc/fail2ban/filter.d/apache-wordpress-spam.conf /etc/fail2ban/filter.d/wordpress-spam.conf
+  when: apache_wordpress_spam_conf.stat.exists
+  tags:
+    - fail2ban_8414
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: stat apache_wordpress_comment_conf
+  stat: path=/etc/fail2ban/filter.d/apache-wordpress-comment.conf
+  register: apache_wordpress_comment_conf
+  tags:
+    - fail2ban_8414
+
+- name: mv /tmp/apache-wordpress-comment.conf
+  command: mv /etc/fail2ban/filter.d/apache-wordpress-comment.conf /tmp/
+  when: apache_wordpress_comment_conf.stat.exists
+  tags:
+    - fail2ban_8414
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+# Task#7800
+- name: backup wp-config.php
+  shell: cp /var/www/html/wp-config.php "/tmp/wp-config.php.$(date +%Y-%m-%d)"
+  tags:
+    - wpconfig_7800
+- name: remove Sova WP Settings Comment from wp-config.php
+  lineinfile: dest="/var/www/html/wp-config.php" state=absent regexp='^(.*)(BEGIN|END) Sova WP Settings(.*)$'
+  tags:
+    - wpconfig_7800
+- name: remove VHP_VARNISH_IP from wp-config.php
+  lineinfile: dest="/var/www/html/wp-config.php" state=absent regexp='^(.*)VHP_VARNISH_IP(.*)$'
+  tags:
+    - wpconfig_7800
+- name: rm -f /usr/share/php/real-ip.php
+  command: rm -f /usr/share/php/real-ip.php
+  tags:
+    - wpconfig_7800

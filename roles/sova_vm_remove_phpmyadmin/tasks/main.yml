@@ -1,0 +1,11 @@
+---
+- name: remove phpMyAdmin.conf file 
+  file: path=/etc/httpd/conf.d/phpMyAdmin.conf state=absent  
+  notify:
+  - reload httpd
+
+- name: remove phpMyAdmin.conf.disable file 
+  file: path=/etc/httpd/conf.d/phpMyAdmin.conf.disable state=absent  
+  notify:
+  - reload httpd
+
