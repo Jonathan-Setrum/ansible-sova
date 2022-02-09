@@ -1,0 +1,24 @@
+---
+- name: update zabbix-agent package
+  yum: name={{ item }} state=latest
+  with_items:
+  - zabbix-agent
+  notify:
+  - restart zabbix-agent
+
+- name: check and change zabbix_agentd.conf file on sovafree
+  template: src={{ item }}.sovafree.j2 dest=/etc/zabbix/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - zabbix_agentd.conf
+  notify:
+  - restart zabbix-agent
+  when: "'sovafree_vm' in group_names or 'sovafree_vm_test' in group_names or 'sovafree_vm_template' in group_names"
+
+- name: check and change zabbix_agentd.conf file on sova
+  template: src={{ item }}.sova.j2 dest=/etc/zabbix/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - zabbix_agentd.conf
+  notify:
+  - restart zabbix-agent
+  when: "'sova_vm' in group_names or 'sova_vm_test' in group_names or 'sova_vm_template' in group_names"
+

@@ -1,0 +1,9 @@
+---
+- name: reload mysql
+  service: name=mysql state=reloaded
+  ignore_errors: True
+
+- name: restart mysql
+  service: name=mysql state=restarted
+  ignore_errors: True
+

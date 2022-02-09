@@ -1,0 +1,7 @@
+---
+- name: update MariaDB package
+  yum: name={{ item }} state=latest
+  with_items:
+  - MariaDB*
+  notify:
+  - reload mysql

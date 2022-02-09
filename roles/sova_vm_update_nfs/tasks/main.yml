@@ -1,0 +1,22 @@
+---
+- name: Install nfs-utils
+  yum: name=nfs-utils state=latest
+  when: "'sovafree_vm_template' in group_names or 'sovafree_vm' in group_names or 'sovafree_vm_test' in group_names"
+
+- name: rpcbind, nfslock and nfs service state
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+  - rpcbind
+  - nfslock
+  - nfs
+  when: "'sovafree_vm_template' in group_names or 'sovafree_vm' in group_names or 'sovafree_vm_test' in group_names"
+
+- name: check exports and netconfig
+  template: src={{ item }}.j2 dest=/etc/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - exports
+  - netconfig
+  notify:
+  - restart nfs
+  when: "'sovafree_vm_template' in group_names or 'sovafree_vm' in group_names or 'sovafree_vm_test' in group_names"
+

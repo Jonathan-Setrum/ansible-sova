@@ -1,0 +1,18 @@
+---
+- name: check and change .s3cfg file
+  template: src={{ item }}.j2 dest=/root/{{ item }} owner=root group=root mode=0600 backup=yes
+  with_items:
+  - .s3cfg
+
+- name: check and change backup.sh file
+  template: src={{ item }}.j2 dest=/root/scripts/{{ item }} owner=root group=root mode=0777 backup=yes
+  with_items:
+  - backup.sh
+  
+- name: update npm package
+  yum: name={{ item }} state=latest
+  with_items:
+  - npm
+
+- name: compile s3-cli from npm
+  shell: npm install s3-cli -g

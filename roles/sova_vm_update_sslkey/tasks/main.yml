@@ -1,0 +1,42 @@
+---
+- stat: path=/etc/pki/tls/private/localhost.key
+  register: old_privatekey
+  
+- stat: path=/etc/pki/tls/certs/localhost.crt
+  register: old_crtkey
+
+- stat: path=/etc/pki/tls/certs/server-chain.crt
+  register: old_crtchainkey
+
+# - stat: path=/etc/httpd/conf.d/ssl.conf
+#   register: old_sslconfig
+
+- name: change the ssl key config file
+  copy: src={{ item }}.j2 dest=/etc/pki/tls/private/{{ item }} backup=yes
+  with_items:
+  - localhost.key
+  notify:
+  - restart httpd
+  when: (old_privatekey.stat.md5 == 'aa198fc450e3c777cad0d7793b983792')
+
+- name: change the ssl cert config file
+  copy: src={{ item }}.j2 dest=/etc/pki/tls/certs/{{ item }} backup=yes
+  with_items:
+  - localhost.crt
+  notify:
+  - restart httpd
+  when: (old_crtkey.stat.md5 == '48f740a822cf3c80c5cb03923b9db652')
+
+- name: change the ssl cert chain config file
+  copy: src={{ item }}.j2 dest=/etc/pki/tls/certs/{{ item }} backup=yes
+  with_items:
+  - server-chain.crt
+  notify:
+  - restart httpd
+  when: (old_crtchainkey.stat.md5 == '4f9b8795f8a244bdf991feaa9ad2211f')
+
+# - name: change the ssl configuration file
+#   replace: dest=/etc/httpd/conf.d/ssl.conf regexp='^#SSLCertificateChainFile /etc/pki/tls/certs/server-chain.crt$' replace='SSLCertificateChainFile /etc/pki/tls/certs/server-chain.crt' backup=yes
+#   notify:
+#   - restart httpd
+#   when: (old_crtkey.stat.md5 == 'c0359edd4a58af7855efc3c4a70ce6d5' and (old_sslconfig.stat.md5 == 'fd2ba4f9fd0219f4e2eb4bc1c61f0cd0' or old_sslconfig.stat.md5 == 'cbc77b857c0bf14ca50720b51bb897c2'))

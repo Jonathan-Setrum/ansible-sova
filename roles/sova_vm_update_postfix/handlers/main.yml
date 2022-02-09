@@ -1,0 +1,13 @@
+---
+- name: restart postfix
+  service: name=postfix state=restarted
+  ignore_errors: True
+
+- name: reload postfix
+  service: name=postfix state=reloaded
+  ignore_errors: True
+
+- name: reload postmap
+  shell: postmap /etc/postfix/virtual
+  ignore_errors: True
+

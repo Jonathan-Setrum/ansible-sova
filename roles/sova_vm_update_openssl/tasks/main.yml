@@ -1,0 +1,7 @@
+---
+- name: update openssl package
+  yum: name={{ item }} state=latest
+  with_items:
+  - openssl*
+  notify:
+  - reload httpd

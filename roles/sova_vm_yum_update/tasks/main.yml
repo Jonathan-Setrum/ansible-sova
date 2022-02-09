@@ -1,0 +1,73 @@
+---
+- name: remove old virtual configuration
+  shell: rm -rf /etc/postfix/virtual.rpm*
+
+- name: get user information (postfix)
+  shell: cat /etc/passwd | grep "x:500:500:" | cut -f 1 -d ":"
+  register: userresult
+
+- name: upgrade all packages
+  yum: name=* state=latest
+
+- name: check and change /var/lib/php/session (php)
+  file: path={{ item }} owner=500 group=500 state=directory
+  with_items:
+  - /var/lib/php/session
+  notify:
+  - reload httpd
+
+- name: change /etc/postfix/main.cf file (postfix)
+  template: src={{ item }}.j2 dest=/etc/postfix/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - main.cf
+  notify:
+  - restart postfix
+  when: inventory_hostname!='103.250.200.12' and inventory_hostname!='103.250.202.23'
+
+- name: stat virtual.rpmsave (postfix)
+  stat: path=/etc/postfix/virtual.rpmsave
+  register: virtual_rpmsave_stat
+
+- name: check and change virtual file (postfix)
+  shell: mv /etc/postfix/virtual.rpmsave /etc/postfix/virtual
+  notify:
+  - reload postmap
+  when: virtual_rpmsave_stat.stat.exists and inventory_hostname!='103.250.200.12' and inventory_hostname!='103.250.202.23'
+
+- name: check and change /var/www (apache)
+  file: path={{ item }} owner=root group=root state=directory mode=0755
+  with_items:
+  - /var/www
+
+- name: check and change user to /var/www/html on sova_vm and sovafree_vm (apache)
+  file: path={{ item }} owner=500 group=500 state=directory recurse=yes
+  with_items:
+  - /var/www/html
+  when: "'sova_vm' in group_names or 'sovafree_vm' in group_names or 'sova_vm_test' in group_names or 'sovafree_vm_test' in group_names"
+
+- name: check and change permission to /var/www/html on sova_vm and sovafree_vm (apache)
+  file: path={{ item }} state=directory mode=0755
+  with_items:
+  - /var/www/html
+  when: "'sova_vm' in group_names or 'sovafree_vm' in group_names or 'sova_vm_test' in group_names or 'sovafree_vm_test' in group_names"
+
+- name: moving the file and deleting /var/www/icons (apache)
+  shell: mv -f /var/www/icons/* /var/www2/icons; rm -rf /var/www/icons
+
+- name: check and change /usr/bin/which and /usr/bin/php (command)
+  file: path={{ item }} owner=root group=root state=file mode=0755
+  with_items:
+  - /usr/bin/which
+  - /usr/bin/php
+
+- name: check and change /usr/bin/unzip and /usr/bin/zipinfo (command)
+  command: chmod 700 {{ item }}
+  with_items:
+  - /usr/bin/unzip
+  - /usr/bin/zipinfo
+
+- name: check and change /usr/bin/wget (command)
+  file: path={{ item }} owner=root group=root state=file mode=0000
+  with_items:
+  - /usr/bin/wget
+

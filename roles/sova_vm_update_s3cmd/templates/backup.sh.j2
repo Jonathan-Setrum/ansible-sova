@@ -1,0 +1,68 @@
+#!/bin/bash
+function log(){
+  logger -t ${0##*/} ${1}
+}
+
+log 'script Started'
+
+exec 1> /dev/null
+exec 2> >(log)
+
+PATH=/usr/sbin:/sbin:/bin:/usr/bin
+
+user="root"
+pass="`cat /root/scripts/root.passwd`"
+host=$(hostname -f)
+
+dest="/backup"
+mkdir $dest
+
+now=`date +%Y-%m-%d`
+last=$(date +%Y-%m-%d --date='1 week ago')
+
+backup_files="/var/www/html"
+upload_files="/var/www/html/wp-content/uploads/"
+archive_www_file="$host-web-$now.tgz"
+archive_upload_file="$host-upload-$now.tgz"
+db_file="$host-db-$now.gz"
+
+log 'compression start'
+# compress files
+mysqldump -u $user -h localhost -p$pass wordpress | gzip -9 > $dest/$db_file
+log "$dest/$db_file `wc -c < $dest/$db_file`"
+tar czPf $dest/$archive_www_file $backup_files --exclude='/var/www/html/wp-content/uploads'
+log "$dest/$archive_www_file `wc -c < $dest/$archive_www_file`"
+tar czPf $dest/$archive_upload_file $upload_files
+log "$dest/$archive_upload_file `wc -c < $dest/$archive_upload_file`"
+
+log 'upload start'
+# upload backups to s3
+/usr/bin/s3-cli put $dest/$db_file s3://sova.sovabackup/database/
+log "db: `[ $? = 0 ] && echo OK || echo NG`"
+/usr/bin/s3-cli put $dest/$archive_www_file s3://sova.sovabackup/web/
+log "web: `[ $? = 0 ] && echo OK || echo NG`"
+/usr/bin/s3-cli put $dest/$archive_upload_file s3://sova.sovabackup/web/
+log "upload: `[ $? = 0 ] && echo OK || echo NG`"
+
+log 'removal start'
+# delete old backups from s3
+/usr/bin/s3-cli del --recursive s3://sova.sovabackup/database/$host-db-$last.gz
+log "rm s3: database/$host-db-$last.gz `[ $? = 0 ] && echo OK || echo NG`"
+/usr/bin/s3-cli del --recursive s3://sova.sovabackup/web/$host-web-$last.tgz
+log "rm s3: web/$host-web-$last.tgz `[ $? = 0 ] && echo OK || echo NG`"
+/usr/bin/s3-cli del --recursive s3://sova.sovabackup/web/$host-upload-$last.tgz
+log "rm s3: web/$host-upload-$last.tgz `[ $? = 0 ] && echo OK || echo NG`"
+# delete backups from local
+if [ -f $dest/$db_file ]; then
+  log "$(rm -v -f $dest/$db_file)"
+fi
+
+if [ -f $dest/$archive_www_file ]; then
+  log "$(rm -v -f $dest/$archive_www_file)"
+fi
+
+if [ -f $dest/$archive_upload_file ]; then
+  log "$(rm -v -f $dest/$archive_upload_file)"
+fi
+
+log 'script Done'

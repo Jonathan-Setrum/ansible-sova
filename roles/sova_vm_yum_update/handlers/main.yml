@@ -1,0 +1,21 @@
+---
+- name: reload httpd
+  service: name=httpd state=reloaded
+  ignore_errors: True
+
+- name: restart varnish
+  service: name=varnish state=restarted
+  ignore_errors: True
+
+- name: restart httpd
+  service: name=httpd state=restarted
+  ignore_errors: True
+
+- name: restart postfix
+  service: name=postfix state=restarted
+  ignore_errors: True
+
+- name: reload postmap
+  shell: postmap /etc/postfix/virtual
+  ignore_errors: True
+

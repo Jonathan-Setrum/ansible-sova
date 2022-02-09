@@ -1,0 +1,57 @@
+---
+- name: check phpMyAdmin enable/disable
+  shell: test -e /etc/httpd/conf.d/phpMyAdmin.conf ; echo $?
+  register: result_phpmyadmin_enable
+
+- name: remove old phpMyAdmin configuration
+  shell: rm -rf /etc/httpd/conf.d/phpMyAdmin.conf.rpm*
+
+- name: update phpMyAdmin package
+  yum: name={{ item }} state=latest
+  with_items:
+  - phpMyAdmin
+  notify:
+  - restart httpd
+
+- name: check and change /var/lib/php/session
+  file: path={{ item }} owner=500 group=500 state=directory
+  with_items:
+  - /var/lib/php/session
+  notify:
+  - restart httpd
+
+- name: check and change /etc/phpMyAdmin
+  file: path={{ item }} owner=root group=root state=directory mode=0755
+  with_items:
+  - /etc/phpMyAdmin
+  notify:
+  - restart httpd
+
+- name: check and change config.inc.php file
+  template: src={{ item }}.j2 dest=/etc/phpMyAdmin/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - config.inc.php
+  notify:
+  - restart httpd
+
+- name: remove phpMyAdmin.conf file 
+  file: path=/etc/httpd/conf.d/phpMyAdmin.conf state=absent  
+  notify:
+  - restart httpd
+  when: result_phpmyadmin_enable.stdout == '1'
+
+- name: stat phpMyAdmin.conf.rpmsave
+  stat: path=/path/to/phpMyAdmin.conf.rpmsave
+  register: phpMyAdmin_conf_rpmsave_stat
+
+- name: check and change phpMyAdmin.conf file
+  shell: mv /etc/httpd/conf.d/phpMyAdmin.conf.rpmsave /etc/httpd/conf.d/phpMyAdmin.conf
+  notify:
+  - restart httpd
+  when: phpMyAdmin_conf_rpmsave_stat.stat.exists
+
+- name: remove phpMyAdmin.conf.disable file 
+  file: path=/etc/httpd/conf.d/phpMyAdmin.conf.disable state=absent  
+  notify:
+  - restart httpd
+

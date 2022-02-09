@@ -1,0 +1,6 @@
+DEVICE=br4093
+ONBOOT=yes
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR={{ ansible_br4093.ipv4.address }}
+NETMASK={{ ansible_br4093.ipv4.netmask }}

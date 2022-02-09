@@ -1,0 +1,23 @@
+---
+#- name: get user information
+#  shell: cat /etc/passwd | grep "x:500:500:" | cut -f 1 -d ":"
+#  register: userresult
+#
+- name: postfix service state
+  service: name=postfix state=started enabled=yes
+
+- name: change /etc/postfix/main.cf file
+  template: src={{ item }}.j2 dest=/etc/postfix/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - main.cf
+  notify:
+  - reload postfix
+  when: inventory_hostname!='103.250.200.12' and inventory_hostname!='103.250.202.23'
+
+#- name: change /etc/postfix/virtual file
+#  template: src={{ item }}.j2 dest=/etc/postfix/{{ item }} owner=root group=root mode=0644 backup=yes
+#  with_items:
+#  - virtual
+#  notify:
+#  - reload postmap
+#  when: inventory_hostname!='103.250.200.12' and inventory_hostname!='103.250.202.23'
