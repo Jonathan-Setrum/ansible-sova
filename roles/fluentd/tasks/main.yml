@@ -1,0 +1,33 @@
+---
+- name: Add GPG key
+  rpm_key: state=present key=http://packages.treasuredata.com/GPG-KEY-td-agent
+
+- name: Add treasure data repository to yum 
+  copy: >
+    src=td.repo
+    dest=/etc/yum.repos.d/td.repo
+    owner=root group=root mode=644
+
+- name: Install td-agent 
+  yum: name=td-agent state=present
+
+- name: Change permmison for access httpd log
+  command: chmod 755 /var/log/httpd
+
+- name: Update td-agent.conf
+  template: src=td-agent.conf.j2 dest=/etc/td-agent/td-agent.conf owner=root group=root mode=644
+
+- name: Install plugin
+  shell: /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-datacounter
+
+- name: Install plugin
+  shell: /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-zabbix
+
+- name: Install plugin
+  shell: /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-filter
+
+- name: Install plugin
+  shell: /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-rewrite-tag-filter
+
+- name: start td-agent
+  service: name=td-agent enabled=yes state=started

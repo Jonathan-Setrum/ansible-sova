@@ -1,0 +1,58 @@
+{% if check_top_entry.rc == 1 %}
+dn: {{midx_domain_suffix}}
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: {{ midx_subdomain }}.{{ midx_topdomain }}
+dc: {{ midx_subdomain }}
+{% endif %}
+
+{% if check_root_entry.rc == 1 %}
+dn: {{ midx_domain_root_dn }}
+objectClass: organizationalRole
+cn: {{ midx_domain_root_cn }}
+{% endif %}
+
+{% if check_users_entry.rc == 1 %}
+dn: ou={{ users_ou }},{{ midx_domain_suffix }}
+objectclass: organizationalUnit
+ou: {{ users_ou }}
+{% endif %}
+
+{% if check_groups_entry.rc == 1 %}
+dn: ou={{ groups_ou }},{{ midx_domain_suffix }}
+objectclass: organizationalUnit
+ou: {{ groups_ou }}
+{% endif %}
+
+{% if check_midx_group_entry.rc == 1 %}
+dn: cn={{ midx_group }},ou={{ groups_ou }},{{ midx_domain_suffix }}
+objectClass: posixGroup
+cn: {{ midx_group }}
+gidNumber: {{ midx_group_gid_number }}
+{% endif %}
+
+{% if check_master_map_entry.rc == 1 %}
+# auto.master
+dn: nisMapName=auto.master,{{ midx_domain_suffix }}
+objectClass: top
+objectClass: nisMap
+nisMapName: auto.master
+{% endif %}
+
+{% if check_midx_group_map_entry.rc == 1 %}
+# auto.{{ midx_group }}
+dn: nisMapName=auto.{{ midx_group }},{{ midx_domain_suffix }}
+objectClass: top
+objectClass: nisMap
+nisMapName: auto.{{ midx_group }}
+{% endif %}
+
+{% if check_midx_group_entry_entry.rc == 1 %}
+# /{{ midx_group }} auto.{{ midx_group }}
+dn: cn=/{{ midx_group }},nisMapName=auto.master,{{ midx_domain_suffix }}
+objectClass: nisObject
+cn: /{{ midx_group }}
+nisMapName: auto.master
+nisMapEntry: auto.{{ midx_group }}
+{% endif %}

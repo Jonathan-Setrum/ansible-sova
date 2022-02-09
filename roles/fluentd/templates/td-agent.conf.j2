@@ -1,0 +1,39 @@
+<source>
+  type tail
+  path /var/log/httpd/access_log
+  format /^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^ ]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$/
+  pos_file /var/log/td-agent/apache.access.log.pos
+  tag apache.access
+  time_format %d/%b/%Y:%H:%M:%S %z
+</source>
+
+<match apache.access>
+  type rewrite_tag_filter
+  capitalize_regex_backreference yes
+  rewriterule1 path !^/(xmlrpc.php|wp-login.php)$ clear
+  rewriterule2 method ^POST$ filteredlog
+</match>
+
+<match filteredlog>
+  type copy
+  <store>
+    type file
+    path /var/log/td-agent/bad_apache.access.log
+  </store>
+
+  <store>
+    type datacounter
+    count_interval 1m
+    count_key method
+    tag response.code.analysis
+    pattern1 bad_access ^POST$
+  </store>
+</match>
+
+<match response.code.analysis>
+  type zabbix
+  zabbix_server zabbix02.sova.sg
+  host {{ ansible_venet0_0["ipv4"]["address"] }}
+  name_key_pattern .*_count
+  add_key_prefix fluentd
+</match>

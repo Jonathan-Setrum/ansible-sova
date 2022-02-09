@@ -1,0 +1,9 @@
+[Definition]
+
+actionstart =
+actionstop =
+actioncheck =
+actionban = IPADDR=`hostname -i`
+            curl -F "banned_ip=<ip>" -F "vserver_ip=$IPADDR" -F "banned_at=<time>" -F "data=<matches>" https://admin.sova.sg/api/blocks
+actionunban = IPADDR=`hostname -i`
+            curl -X DELETE -F "unbanned_ip=<ip>" -F "vserver_ip=$IPADDR" -F "unbanned_at=<time>" -F "data=<matches>" https://admin.sova.sg/api/blocks

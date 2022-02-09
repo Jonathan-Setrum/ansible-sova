@@ -1,0 +1,6 @@
+uri ldap://{{ midx_ldap01_interface }}:389,ldap://{{ midx_ldap02_interface }}:389
+base {{ midx_domain_suffix }}
+binddn {{ midx_domain_root_dn }}
+bindpw {{ midx_domain_rootdn_password }}
+
+ssl no

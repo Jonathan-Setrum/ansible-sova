@@ -1,0 +1,20 @@
+---
+- name: restart nginx
+  service: name=nginx state=restarted
+  ignore_errors: True
+
+- name: restart mysql
+  service: name=mysql state=restarted
+  ignore_errors: True
+
+- name: restart iptables
+  service: name=iptables state=restarted
+  ignore_errors: True
+
+- name: restart sshd
+  service: name=sshd state=restarted
+  ignore_errors: True
+
+- name: restart zabbix-agent
+  service: name=zabbix-agent state=restarted
+  ignore_errors: True

@@ -1,0 +1,52 @@
+---
+- name: Install some repository
+  yum: name={{ item }} state=present
+  with_items:
+    - "{{ nginx_rep }}"
+    - "{{ epel_rep }}"
+    - "{{ remi_rep }}"
+
+- name: copy mariadb.repo to server
+  template: src=mariadb.repo.j2 dest=/etc/yum.repos.d/mariadb.repo owner=root group=root mode=0644
+
+#- name: yum update
+#  yum: name=* state=latest
+
+- name: install some packages
+  yum: name={{ item }} state=present
+  with_items:
+    - nginx
+    - MariaDB-devel
+    - MariaDB-client
+    - MariaDB-server
+    - redis
+    - monit
+
+- name: setting MariaDB
+  template: src=server.cnf.j2 dest=/etc/my.cnf.d/server.cnf owner=root group=root mode=0644
+  notify:
+  - restart mysql
+
+- name: setting nginx
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+  notify:
+  - restart nginx
+
+- name: setting monit
+  template: src=monit.conf.j2 dest=/etc/monit.conf owner=root group=root mode=0600
+  notify:
+  - restart monit
+
+- name: some service state
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - mysql
+    - nginx
+    - redis
+    - monit
+
+- name: change iptables
+  template: src=iptables.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0644
+  notify:
+  - restart iptables
+

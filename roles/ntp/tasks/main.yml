@@ -1,0 +1,18 @@
+---
+- name: install or update ntp package
+  yum: name={{ item }} state=latest
+  with_items:
+  - ntp
+
+- name: enable ntpd service state
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+  - ntpd
+
+- name: check and change ntp.conf file
+  template: src={{ item }}.j2 dest=/etc/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+  - ntp.conf
+  notify:
+  - restart ntpd
+

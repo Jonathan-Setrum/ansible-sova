@@ -1,0 +1,3 @@
+SetEnvIf Request_Method "POST" good
+CustomLog logs/fail2ban_post_log combined env=good
+

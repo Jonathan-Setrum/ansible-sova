@@ -1,0 +1,15 @@
+---
+- name: Install zabbix server
+  hosts: sova-vm
+  user: root
+
+  tasks:
+  - name: lineinfile example task
+    shell: sed -n '11,26p' /etc/httpd/conf.d/phpMyAdmin.conf
+    register: test_df
+  - debug: var=test_df.stdout_lines
+
+  - name: lineinfile example task
+    shell: sed -n '11,26p' /etc/httpd/conf.d/phpMyAdmin.conf.disable
+    register: test_df
+  - debug: var=test_df.stdout_lines

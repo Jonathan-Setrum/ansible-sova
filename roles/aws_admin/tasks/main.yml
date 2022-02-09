@@ -1,0 +1,117 @@
+---
+#- name: yum update
+#  yum: name=* state=latest
+
+- set_fact: colon=":"
+
+- name: stop iptables service state
+  service: name={{ item }} state=stopped enabled=no
+  with_items:
+    - iptables
+
+- name: Change hostname
+  shell: hostname {{ inventory_hostname }}
+  when: ansible_hostname != inventory_hostname
+
+- name: write sysconfig_network file
+  template: src=network.j2 dest=/etc/sysconfig/network
+
+- name: setting tokyo time
+  copy: src=Time_Tokyo.j2 dest=/etc/localtime
+
+- name: Install some repository
+  yum: name={{ item }} state=present
+  with_items:
+    - "{{ nginx_rep }}"
+    - "{{ epel_rep }}"
+    - "{{ remi_rep }}"
+    - "{{ zabbix_rep }}"
+
+- name: copy mariadb.repo to server
+  template: src=mariadb.repo.j2 dest=/etc/yum.repos.d/mariadb.repo owner=root group=root mode=0644
+
+- name: install some packages
+  yum: name={{ item }} state=present
+  with_items:
+    - nginx
+    - MariaDB-devel
+    - MariaDB-server
+    - redis
+    - logrotate
+    - sendmail
+    - git
+    - zlib-devel
+    - openssl-devel
+    - nodejs
+    - libcurl-devel
+    - pcre-devel
+    - zabbix-agent
+    - lsof
+    - gcc
+    - patch
+
+- name: setting MariaDB
+  template: src=server.cnf.j2 dest=/etc/my.cnf.d/server.cnf owner=root group=root mode=0644
+  notify:
+  - restart mysql
+
+#- name: setting nginx
+#  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+#  notify:
+#  - restart nginx
+
+- name: write the zabbix config file
+  template: src=zabbix_agentd.conf.j2 dest=/etc/zabbix/zabbix_agentd.conf
+  notify:
+  - restart zabbix-agent
+
+- name: some service state
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - mysql
+    - nginx
+    - redis
+    - sendmail
+    - zabbix-agent
+
+- name: add a new user
+  user: name=apps
+
+- name: change permission of /etc/sudoers file
+  file: path=/etc/sudoers state=file owner=root group=root mode=0640
+
+- name: change /etc/sudoers file
+  lineinfile: dest="/etc/sudoers"
+              insertafter="^## Same thing without a password"
+              line="apps ALL=(ALL) NOPASSWD{{ colon }} ALL"
+
+- name: change permission of /etc/sudoers file
+  file: path=/etc/sudoers state=file owner=root group=root mode=0440
+
+- name: ssh file directory
+  file: path=/home/apps/.ssh state=directory owner=apps group=apps mode=0755
+
+- name: setting apps user
+  template: src={{ item }}.j2 dest=/home/apps/.ssh/{{ item }} owner=apps group=apps mode=0600
+  with_items:
+    - authorized_keys
+    - config
+
+- name: change hosts.allow and hosts.deny for limit of sshd
+  template: src={{ item }}.j2 dest=/etc/{{ item }}
+  with_items:
+  - hosts.allow
+  - hosts.deny
+
+- name: setting ssh-ldap-tunnel.conf
+  template: src={{ item }}.j2 dest=/etc/init/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - ssh-ldap-tunnel1.conf
+    - ssh-ldap-tunnel2.conf
+
+- name: start ssh-ldap-tunnel1
+  shell: initctl reload-configuration; initctl stop ssh-ldap-tunnel1; initctl start ssh-ldap-tunnel1
+
+- name: start ssh-ldap-tunnel2
+  shell: initctl reload-configuration; initctl stop ssh-ldap-tunnel2; initctl start ssh-ldap-tunnel2
+

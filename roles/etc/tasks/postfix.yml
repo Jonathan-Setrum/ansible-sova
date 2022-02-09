@@ -1,0 +1,18 @@
+- name: postfix
+  hosts: sova-vm
+  user: root
+
+  tasks:
+  - name: chkconfig postfix on
+    service: name=postfix state=running enabled=yes
+
+  - name: check chkconfig list
+    shell: chkconfig postfix --list
+    register: test_df
+  - debug: var=test_df.stdout_lines
+
+  - name: postfix restart task
+    shell: /etc/init.d/postfix restart
+    register: test_df
+  - debug: var=test_df.stdout_lines
+

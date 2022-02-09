@@ -1,0 +1,8 @@
+---
+- name: reflect sysctl settings
+  shell: sysctl -p
+  ignore_errors: True
+
+- name: restart iptables
+  service: name=iptables state=restarted
+  ignore_errors: True

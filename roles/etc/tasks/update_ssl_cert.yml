@@ -1,0 +1,47 @@
+- hosts: sova_jp_test
+  user: root
+  tasks:
+    - name: check files
+      shell: md5sum /etc/pki/tls/private/localhost.key
+      register: localhost_key_checker
+
+    - name: check files
+      shell: md5sum /etc/pki/tls/certs/localhost.crt
+      register: localhost_crt_checker
+
+#    - debug: msg="{{ localhost_key_checker.stdout }}"
+#    - debug: msg="{{ localhost_key_checker.stdout.find('5e4972bfc0866f74649bee85c01474a1') }}"
+#    - debug: msg="{{ localhost_key_checker.stdout.find('incorrect number') }}"
+
+
+    - name: scp localhost.crt
+      copy: src=localhost.crt  dest=/tmp/ owner=root group=root mode=0644
+
+    - name: scp localhost.key 
+      copy: src=localhost.key  dest=/tmp/ owner=root group=root mode=0644
+
+# move
+    - name: back up localhost.key
+      command: mv /etc/pki/tls/private/localhost.key /etc/pki/tls/private/localhost.key.20140410
+      when: localhost_key_checker.stdout.find('5e4972bfc0866f74649bee85c01474a1') == 0
+
+    - name: copy new key
+      command: mv /tmp/localhost.key /etc/pki/tls/private/localhost.key
+      when: localhost_key_checker.stdout.find('5e4972bfc0866f74649bee85c01474a1') == 0
+
+    - name: back up localhost.crt
+      command: mv /etc/pki/tls/certs/localhost.crt /etc/pki/tls/certs/localhost.crt.20140410
+      when: localhost_crt_checker.stdout.find('6c6bee9683ac9bc8388d25fa02b420ae') == 0
+
+    - name: copy new crt
+      command: mv /tmp/localhost.crt /etc/pki/tls/certs/localhost.crt
+      when: localhost_crt_checker.stdout.find('6c6bee9683ac9bc8388d25fa02b420ae') == 0
+
+    - name: restart apach
+      command: /etc/init.d/httpd restart
+
+    - name: remove /tmp/localhost.key and /tmp/localhost.crt
+      file: path=/tmp/{{ item }} state=absent
+      with_items:
+      - localhost.crt
+      - localhost.key

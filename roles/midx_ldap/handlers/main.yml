@@ -1,0 +1,9 @@
+---
+- name: restart slapd
+  service: name=slapd state=restarted
+  ignore_errors: True
+
+- name: restart iptables
+  service: name=iptables state=restarted
+  ignore_errors: True
+

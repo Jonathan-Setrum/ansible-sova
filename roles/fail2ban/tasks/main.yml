@@ -1,0 +1,79 @@
+---
+- name: update fail2ban
+  yum: name=fail2ban state=latest
+  tags:
+    - fail2ban
+
+- name: Log POST requests on separated files
+  template: src=httpd_fail2ban_post.conf.j2 dest=/etc/httpd/conf.d/httpd_fail2ban_post.conf owner=root group=root mode=644
+
+- name: Restart httpd now in order to create fail2ban_post_log
+  service: name=httpd state=reloaded
+
+- name: update config in /etc/fail2ban
+  template: src={{ item }}.conf.j2 dest=/etc/fail2ban/{{ item }}.conf owner=root group=root mode=644
+  with_items:
+    - fail2ban
+    - jail
+  tags:
+    - fail2ban
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: update config in /etc/fail2ban/action.d
+  template: src={{ item }}.conf.j2 dest=/etc/fail2ban/action.d/{{ item }}.conf owner=root group=root mode=644
+  with_items:
+    - iptables-blocktype
+    - report_banip
+  tags:
+    - fail2ban
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: update config in /etc/fail2ban/filter.d
+  template: src={{ item }}.conf.j2 dest=/etc/fail2ban/filter.d/{{ item }}.conf owner=root group=root mode=644
+  with_items:
+    - http-get-dos
+    - wordpress
+    - wordpress-dos
+    - wordpress-login
+    - wordpress-spam
+  tags:
+    - fail2ban
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: start fail2ban
+  service: name=fail2ban enabled=yes state=started
+  tags:
+    - fail2ban
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: changed log permisson for zabbix by command
+  command: chmod 644 /var/log/fail2ban.log
+  tags:
+    - fail2ban
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: changed log permisson for zabbix
+  file: path=/var/log/fail2ban.log owner=root group=root mode=0644
+  tags:
+    - fail2ban
+  notify:
+    - fail2ban restart
+    - iptables restart
+
+- name: change logrotate configuraton
+  template: src=fail2ban.j2 dest=/etc/logrotate.d/fail2ban owner=root group=root mode=644
+  tags:
+    - fail2ban
+  notify:
+    - fail2ban restart
+    - iptables restart

@@ -1,0 +1,52 @@
+---
+- name: yum update
+  yum: name=* state=latest
+
+- name: check openvz.repo
+  stat: path=/etc/yum.repos.d/openvz.repo
+  register: repofile
+
+- name: get openvz.repo
+  shell: wget -O /etc/yum.repos.d/openvz.repo http://download.openvz.org/openvz.repo
+  when: not repofile.stat.exists
+
+- name: Install RPM-GPG-Key-OpenVZ
+  shell: rpm --import http://download.openvz.org/RPM-GPG-Key-OpenVZ
+
+- name: Install vzkernel, vzctl, vzquota, ruby, ploop
+  yum: name={{ item }} state=present
+  with_items:
+  - vzkernel
+  - vzctl
+  - vzquota
+  - ruby
+  - ploop
+
+- name: change sysctl.conf file
+  template: src=sysctl.conf.j2 dest=/etc/sysctl.conf
+  notify:
+  - reflect sysctl settings
+
+- name: create owp hw-daemon file directory
+  file: path=/opt/hw-daemon state=directory owner=root group=root mode=0755
+
+- name: upload owp hw-daemon file
+  template: src={{ item }}.j2 dest=/opt/hw-daemon/{{ item }}
+  with_items:
+  - hw-daemon.ini
+  - hw-daemon.rb
+
+- name: change hosts.allow and hosts.deny for limit of sshd
+  template: src={{ item }}.j2 dest=/etc/{{ item }}
+  with_items:
+  - hosts.allow
+  - hosts.deny
+
+- name: autostart owp hw-daemon service
+  template: src=rc.local.j2 dest=/etc/rc.d/rc.local
+
+- name: insert iptables rule
+  template: src=iptables.j2 dest=/etc/sysconfig/iptables
+  notify:
+  - restart iptables
+

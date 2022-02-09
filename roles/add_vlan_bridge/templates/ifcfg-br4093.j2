@@ -1,0 +1,8 @@
+DEVICE=br{{ vlan_id }}
+ONBOOT=yes
+TYPE=Bridge
+{% if vlan_id == "4093" %}
+BOOTPROTO=static
+IPADDR={{ ansible_br4093.ipv4.address }}
+NETMASK={{ ansible_br4093.ipv4.netmask }}
+{% endif %}

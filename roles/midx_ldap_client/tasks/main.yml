@@ -1,0 +1,96 @@
+---
+- name: Add CentOS repository to RedHat 
+  template: src=CentOS-Base.repo.j2 dest=/etc/yum.repos.d/CentOS-Base.repo
+  when: ansible_distribution == 'RedHat'
+
+- name: Add releasever to RedHat
+  template: src=releasever.j2 dest=/etc/yum/vars/releasever
+  when: ansible_distribution == 'RedHat'
+  
+- name: Add RPM-GPG-KEY-CentOS-6 to RedHat
+  copy: src=RPM-GPG-KEY-CentOS-6 dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+  when: ansible_distribution == 'RedHat'
+  
+- name: install the latest necessary packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - oddjob-mkhomedir
+    - nscd
+    - nss-pam-ldapd
+    - openldap-clients
+    - openssh-ldap
+
+#- name: install openssh-ldap packages on CentOS
+#  yum: name=openssh-ldap state=latest
+#  when: ansible_distribution == 'CentOS'
+#
+#- name: copy rpm file of openssh-ldap to tmp
+#  copy: src=openssh-ldap-5.3p1-94.el6.x86_64.rpm dest=/tmp/openssh-ldap-5.3p1-94.el6.x86_64.rpm
+#  when: ansible_distribution == 'RedHat'
+#
+#- name: install openssh of the latest necessary packages
+#  yum: name=openssh state=latest
+#  when: ansible_distribution == 'RedHat'
+#
+#- name: install openssh in Red Hat Enterprise
+#  yum: name=/tmp/openssh-ldap-5.3p1-94.el6.x86_64.rpm state=present
+#  when: ansible_distribution == 'RedHat'
+#
+- name: start services
+  service: name={{ item }} enabled=yes state=started
+  with_items:
+    - messagebus
+    - oddjobd
+
+- set_fact: colon=":"
+
+- name: configurate authentication
+  command: /usr/sbin/authconfig --update --passalgo=sha512 --enableldap --enableldapauth --ldapserver=ldap://{{ midx_ldap01_interface }}:389,ldap://{{ midx_ldap02_interface }}:389 --ldapbasedn={{ midx_domain_suffix }} --enablemkhomedir
+
+- name: configure bind DN in pam_ldap.conf
+  lineinfile: dest=/etc/pam_ldap.conf regexp='^binddn ' line="binddn {{ midx_domain_root_dn }}" state=present
+
+- name: configure bind password in pam_ldap.conf
+  lineinfile: dest=/etc/pam_ldap.conf regexp='^bindpw' line="bindpw {{ midx_domain_rootdn_password }}" state=present
+
+- name: configure password change protocol in pam_ldap.conf
+  lineinfile: dest=/etc/pam_ldap.conf regexp='^pam_password' line="pam_password exop" state=present
+
+- name: configure sshd in /etc/ssh/sshd_config
+  lineinfile: dest="/etc/ssh/sshd_config"
+              insertafter="^#AuthorizedKeysCommandRunAs"
+              line="AuthorizedKeysCommand /usr/libexec/openssh/ssh-ldap-wrapper"
+
+- name: configure sshd in /etc/ssh/sshd_config
+  lineinfile: dest="/etc/ssh/sshd_config"
+              insertafter="^AuthorizedKeysCommand"
+              line="AuthorizedKeysCommandRunAs root"
+
+- name: copy ldap.conf to /etc/ssh/
+  template: src=ldap.conf.j2 dest=/etc/ssh/ldap.conf owner=root group=root mode=0600 force=yes
+
+- name: change nslcd.conf
+  template: src=nslcd.conf.j2 dest=/etc/nslcd.conf owner=root group=root mode=0600 force=yes
+
+- name: change sss to ldap in /etc/pam.d/system-auth
+  command: sed -i "s/pam_sss.so/pam_ldap.so/g" /etc/pam.d/system-auth
+
+- name: change sss to ldap in /etc/nsswitch.conf
+  command: sed -i "s/files sss/files ldap/g" /etc/nsswitch.conf
+
+- name: restart services
+  service: name={{ item }} enabled=yes state=restarted
+  with_items:
+    - sshd
+    - nslcd
+
+- name: change permission of /etc/sudoers file
+  file: path=/etc/sudoers state=file owner=root group=root mode=0640
+
+- name: change /etc/sudoers file
+  lineinfile: dest="/etc/sudoers"
+              insertafter="^## Same thing without a password"
+              line="%{{ midx_group }} ALL=(ALL) NOPASSWD{{ colon }} ALL"
+
+- name: change permission of /etc/sudoers file
+  file: path=/etc/sudoers state=file owner=root group=root mode=0440

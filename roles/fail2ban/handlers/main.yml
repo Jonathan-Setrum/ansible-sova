@@ -1,0 +1,8 @@
+- name: reload httpd
+  service: name=httpd state=reloaded
+
+- name: iptables restart
+  action: service name=iptables state=restarted
+
+- name: fail2ban restart
+  action: service name=fail2ban state=restarted

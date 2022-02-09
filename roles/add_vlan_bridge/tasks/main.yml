@@ -1,0 +1,8 @@
+---
+- name: write sysconfig_network_br{{ vlan_id }} file and sysconfig_network_bond0.{{ vlan_id }} file
+  template: src=ifcfg-{{ item.src_vlan_id }}.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{ item.dest_vlan_id }}
+  with_items:
+  - { src_vlan_id: "br4093", dest_vlan_id: "br{{ vlan_id }}" }
+  - { src_vlan_id: "bond0.4093", dest_vlan_id: "bond0.{{ vlan_id }}" }
+  notify:
+  - restart network

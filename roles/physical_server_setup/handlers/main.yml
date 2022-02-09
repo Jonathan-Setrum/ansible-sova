@@ -1,0 +1,16 @@
+---
+- name: restart iptables
+  service: name=iptables state=restarted
+  ignore_errors: True
+
+- name: restart network
+  service: name=network state=restarted
+  ignore_errors: True
+
+- name: restart sshd
+  service: name=sshd state=restarted
+  ignore_errors: True
+
+- name: reboot
+  command: shutdown -r now
+  ignore_errors: True

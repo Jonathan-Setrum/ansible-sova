@@ -1,0 +1,18 @@
+---
+- name: check varnish version
+  raw: varnishd -V 2>&1 | grep varnishd | sed -E "s/^.+\(varnish-([0-9]).+\)$/\1/g" | tr -d '\r' | tr -d '\n'
+  register: varnish_version
+  tags:
+  - cache_mode
+
+- name: upload default.vcl for version-3
+  template: src=default_v3.vcl dest=/etc/varnish/default.vcl owner=root group=root mode=0644
+  when: varnish_version.stdout == "3"
+  notify:
+  - restart varnish
+
+- name: upload default.vcl for version-4
+  template: src=default_v4.vcl dest=/etc/varnish/default.vcl owner=root group=root mode=0644
+  when: varnish_version.stdout == "4"
+  notify:
+  - restart varnish

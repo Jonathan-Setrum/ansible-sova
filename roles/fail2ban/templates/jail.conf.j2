@@ -1,0 +1,74 @@
+[DEFAULT]
+ignoreip = 127.0.0.1 133.242.224.133 219.117.202.104 210.188.199.185 182.48.4.0/26 182.48.3.0/24 10.1.0.0/16 219.94.218.128/26 103.250.200.0/22 103.238.244.0/22 133.242.250.6 133.242.250.7 199.27.128.0/21 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/12
+
+[http-get-dos]
+enabled = false
+port = http,https
+filter = http-get-dos
+logpath = /var/log/httpd/fail2ban_post_log
+maxretry = 15
+findtime = 60
+bantime = 3600
+action = iptables[name=HTTP, port=http, protocol=tcp]
+usedns = no
+backend = auto
+
+[ssh]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/secure
+maxretry = 15
+findtime = 600
+bantime = 86400
+action = iptables[name=SSH, port=10022, protocol=tcp]
+usedns = no
+backend = auto
+
+# [ssh-ddos]
+# enabled = true
+# port = ssh
+# filter = sshd-ddos
+# logpath = /var/log/secure
+# maxretry = 5
+# findtime = 600
+# bantime = 120
+# action = iptables[name=SSH, port=10022, protocol=tcp]
+# usedns = no
+# backend = auto
+
+[wordpress-login]
+enabled = true
+filter = wordpress-login
+action = iptables[name=HTTP, port=http, protocol=tcp]
+         report_banip
+logpath = /var/log/httpd/fail2ban_post_log
+maxretry = 20
+findtime = 120
+bantime = 86400
+usedns = no
+backend = auto
+
+[wordpress-spam]
+enabled = true
+filter = wordpress-spam
+action = iptables[name=HTTP, port=http, protocol=tcp]
+         report_banip
+logpath = /var/log/httpd/fail2ban_post_log
+maxretry = 2
+findtime = 300
+bantime = 86400
+usedns = no
+backend = auto
+
+[wordpress-dos]
+enabled = true
+filter = wordpress-dos
+action = iptables[name=HTTP, port=http, protocol=tcp]
+         report_banip
+logpath = /var/log/httpd/fail2ban_post_log
+maxretry = 20
+findtime = 120
+bantime = 86400
+usedns = no
+backend = auto

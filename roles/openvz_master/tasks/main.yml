@@ -1,0 +1,36 @@
+---
+- name: yum update
+  yum: name=* state=latest
+
+- name: check owp install
+  stat: path=/etc/init.d/owp
+  register: owpfile
+
+- name: install owp
+  shell: wget -O - http://ovz-web-panel.googlecode.com/svn/installer/ai.sh | sh
+  when: not owpfile.stat.exists
+
+- name: write the zabbix proxy config file
+  template: src=owp.conf.j2 dest=/etc/owp.conf
+  notify:
+  - restart owp
+
+- name: owp service state
+  service: name=owp state=started enabled=yes
+
+- name: change hosts.allow and hosts.deny for limit of sshd
+  template: src={{ item }}.j2 dest=/etc/{{ item }}
+  with_items:
+  - hosts.allow
+  - hosts.deny
+
+- name: insert iptables rule for 10022
+  lineinfile: dest=/etc/sysconfig/iptables state=present insertafter="^-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT" line="-A INPUT -m state --state NEW -m tcp -p tcp --dport 10022 -j ACCEPT"
+  notify:
+  - restart iptables
+
+- name: insert iptables rule for 443
+  lineinfile: dest=/etc/sysconfig/iptables state=present insertafter="^-A INPUT -m state --state NEW -m tcp -p tcp --dport 10022 -j ACCEPT" line="-A INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT"
+  notify:
+  - restart iptables
+

@@ -1,0 +1,34 @@
+---
+- name: upload varnish.conf,retryafter.conf,userparameter_mysql.conf
+  hosts: test
+  user: root
+
+  tasks:
+#  - name: upload varnishstat.conf
+#    copy: src=../zabbix_agentd.d/varnishstat.conf dest=/etc/zabbix/zabbix_agentd.d/varnishstat.conf owner=root group=root mode=0644
+#
+#  - name: upload retryafter.conf
+#    copy: src=../zabbix_agentd.d/retryafter.conf dest=/etc/zabbix/zabbix_agentd.d/retryafter.conf owner=root group=root mode=0644
+#
+#  - name: upload userparameter_mysql.conf
+#    copy: src=../zabbix_agentd.d/userparameter_mysql.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf owner=root group=root mode=0644
+#
+#  - name: create zabbix user directory
+#    file: dest=/var/lib/zabbix mode=0755 owner=root group=root state=directory
+#
+#  - name: upload zabbxi my.cnf
+#    copy: src=../zabbix_agentd.d/.my.cnf dest=/var/lib/zabbix/.my.cnf owner=root group=zabbix mode=0640
+#
+#  - name: create zabbix user in mysql
+#    shell:  mysql -uroot -p`cat /root/scripts/root.passwd` -e "grant SUPER,PROCESS on *.* to zabbix@localhost identified by 'mei5ataM4b';grant SELECT on mysql.* to zabbix@localhost identified by 'mei5ataM4b';FLUSH PRIVILEGES;SELECT host,user FROM mysql.user where user='zabbix';"
+#
+  - name: rename varnish.con to varnishstat.conf
+    command: mv /etc/zabbix/zabbix_agentd.d/varnish.conf /etc/zabbix/zabbix_agentd.d/varnishstat.conf
+
+  - name: Restart zabbix agent
+    action: service name=zabbix-agent state=restarted
+
+
+  handlers:
+   - name: Restart zabbix agent
+     action: service name=zabbix-agent state=restarted
