@@ -1,0 +1,186 @@
+Host hproxy
+ Hostname 219.117.202.104
+ Port 10022
+ User chen
+
+#sovafree production server
+Host sovafree01
+ Hostname 192.168.70.171
+ Port 22
+ User root 
+ IdentityFile ~/.ssh/sova
+ ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-kvm01
+ Hostname 192.168.70.163
+ Port 22
+ User root
+ IdentityFile ~/.ssh/sova
+ ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-kvm02
+ Hostname 192.168.70.164
+ Port 22
+ User root
+ IdentityFile ~/.ssh/sova
+ ProxyCommand ssh hproxy nc %h %p
+
+Host openvz-master01
+ Hostname 10.1.20.240
+ Port 22
+ IdentityFile ~/.ssh/sova
+ User root
+ ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-sftp01
+ Hostname 10.1.20.243
+ Port 10022
+ IdentityFile ~/.ssh/sova
+ User root
+ ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-sftp02
+ Hostname 10.1.20.244
+ Port 10022
+ IdentityFile ~/.ssh/sova
+ User root
+ ProxyCommand ssh hproxy nc %h %p
+
+Host vsms01
+ Hostname 10.1.20.250
+ Port 10022
+ User ansible
+ ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-ldap01
+        Hostname 10.1.20.251
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-ldap02
+        Hostname 10.1.20.252
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-zabbixproxy01
+        Hostname 10.1.20.253
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-ssh01
+        Hostname 10.1.20.247
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-ssh02
+        Hostname 10.1.20.248
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-proxy01
+        Hostname 103.250.203.241
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+
+Host sovafree-proxy02
+        Hostname 103.250.203.242
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+
+Host sovafree-router01
+        Hostname 10.1.20.245
+        Port 22
+        User vyatta
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafree-router02
+        Hostname 10.1.20.246
+        Port 22
+        User vyatta
+        ProxyCommand ssh hproxy nc %h %p
+
+# sovafree develop server
+Host openvz-test01
+        Hostname 10.1.53.1
+        Port 22
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host openvz-test02
+        Hostname 10.1.53.2
+        Port 22
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafreedev-proxy01
+        Hostname 210.188.193.218
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+
+Host sovafree-proxy02
+        Hostname 103.250.203.242
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+
+Host sovafreedev-ldap01
+        Hostname 10.1.11.4
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafreedev-ldap02
+        Hostname 10.1.11.5
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafreedev-sftp01
+        Hostname 10.1.11.11
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host sovafreedev-sftp02
+        Hostname 10.1.11.12
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host zabbix-freeplan01
+        Hostname 10.1.11.13
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+        ProxyCommand ssh hproxy nc %h %p
+
+Host vsmsdev01
+        Hostname 210.188.193.233
+        Port 10022
+        IdentityFile ~/.ssh/sova
+        User root
+
+Host sovafreedev-router01
+        Hostname 10.1.11.21
+        Port 22
+        User vyatta
+        ProxyCommand ssh hproxy nc %h %p
+
+

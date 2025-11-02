@@ -1,0 +1,376 @@
+2016-04-04 14:50:53,865 p=26371 u=jonathan |   
+2016-04-04 14:50:53,865 p=26371 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host --check
+2016-04-04 14:50:53,865 p=26371 u=jonathan |   
+2016-04-04 14:50:53,868 p=26371 u=jonathan |  ERROR: Unable to find an inventory file, specify one with -i ?
+2016-04-04 14:51:18,154 p=26379 u=jonathan |   
+2016-04-04 14:51:18,155 p=26379 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host --check
+2016-04-04 14:51:18,155 p=26379 u=jonathan |   
+2016-04-04 14:51:18,273 p=26379 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-04 14:51:18,274 p=26379 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:51:24,721 p=26379 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:51:26,224 p=26379 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:51:26,241 p=26379 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-04 14:51:56,573 p=26379 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:51:57,298 p=26379 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:51:57,311 p=26379 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-04 14:51:58,407 p=26379 u=jonathan |  changed: [210.188.193.218]
+2016-04-04 14:51:58,939 p=26379 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:51:58,953 p=26379 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-04 14:51:58,954 p=26379 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:51:58,954 p=26379 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-04 14:51:58,956 p=26379 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:51:59,227 paramiko.transport Exception: Incompatible ssh peer (no acceptable kex algorithm)
+2016-04-04 14:51:59,247 paramiko.transport Traceback (most recent call last):
+2016-04-04 14:51:59,247 paramiko.transport   File "/usr/lib/python2.6/site-packages/paramiko/transport.py", line 1539, in run
+2016-04-04 14:51:59,248 paramiko.transport     self._handler_table[ptype](self, m)
+2016-04-04 14:51:59,248 paramiko.transport   File "/usr/lib/python2.6/site-packages/paramiko/transport.py", line 1611, in _negotiate_keys
+2016-04-04 14:51:59,248 paramiko.transport     self._parse_kex_init(m)
+2016-04-04 14:51:59,248 paramiko.transport   File "/usr/lib/python2.6/site-packages/paramiko/transport.py", line 1725, in _parse_kex_init
+2016-04-04 14:51:59,248 paramiko.transport     raise SSHException('Incompatible ssh peer (no acceptable kex algorithm)')
+2016-04-04 14:51:59,248 paramiko.transport SSHException: Incompatible ssh peer (no acceptable kex algorithm)
+2016-04-04 14:51:59,249 paramiko.transport 
+2016-04-04 14:51:59,280 p=26379 u=jonathan |  fatal: [210.188.193.237] => {'msg': 'FAILED: Incompatible ssh peer (no acceptable kex algorithm)', 'failed': True}
+2016-04-04 14:52:02,613 p=26379 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:52:02,632 p=26379 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-04 14:52:15,869 p=26379 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:52:15,869 p=26379 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-04 14:52:18,349 p=26379 u=jonathan |  changed: [210.188.193.238]
+2016-04-04 14:52:18,350 p=26379 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-04 14:52:18,351 p=26379 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:52:18,351 p=26379 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-04 14:52:18,352 p=26379 u=jonathan |             to retry, use: --limit @/home/jonathan/sovafree_sftp_proxy_rc4.retry
+
+2016-04-04 14:52:18,352 p=26379 u=jonathan |  210.188.193.218            : ok=3    changed=1    unreachable=0    failed=0   
+2016-04-04 14:52:18,353 p=26379 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 14:52:18,353 p=26379 u=jonathan |  210.188.193.237            : ok=0    changed=0    unreachable=1    failed=0   
+2016-04-04 14:52:18,353 p=26379 u=jonathan |  210.188.193.238            : ok=3    changed=1    unreachable=0    failed=0   
+2016-04-04 14:53:51,407 p=26511 u=jonathan |   
+2016-04-04 14:53:51,407 p=26511 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host --check
+2016-04-04 14:53:51,407 p=26511 u=jonathan |   
+2016-04-04 14:53:51,518 p=26511 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-04 14:53:51,520 p=26511 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:53:53,218 p=26511 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:53:53,789 p=26511 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:53:53,810 p=26511 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-04 14:54:02,045 p=26511 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:54:02,101 p=26511 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:54:02,114 p=26511 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-04 14:54:03,131 p=26511 u=jonathan |  changed: [210.188.193.218]
+2016-04-04 14:54:03,478 p=26511 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:54:03,492 p=26511 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-04 14:54:03,493 p=26511 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:54:03,494 p=26511 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-04 14:54:03,495 p=26511 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:56:23,257 p=26511 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:56:23,266 p=26511 u=jonathan |  fatal: [210.188.193.237] => {'msg': 'FAILED: No existing session', 'failed': True}
+2016-04-04 14:56:23,284 p=26511 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-04 14:56:31,866 p=26511 u=jonathan |  ERROR: interrupted
+2016-04-04 14:56:33,414 p=26652 u=jonathan |   
+2016-04-04 14:56:33,414 p=26652 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host --check
+2016-04-04 14:56:33,414 p=26652 u=jonathan |   
+2016-04-04 14:56:33,536 p=26652 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-04 14:56:33,537 p=26652 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:56:35,260 p=26652 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:56:35,622 p=26652 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:56:35,642 p=26652 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-04 14:56:43,943 p=26652 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:56:44,127 p=26652 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:56:44,140 p=26652 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-04 14:56:45,356 p=26652 u=jonathan |  changed: [210.188.193.218]
+2016-04-04 14:56:45,806 p=26652 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:56:45,820 p=26652 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-04 14:56:45,822 p=26652 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:56:45,822 p=26652 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-04 14:56:45,823 p=26652 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:56:50,329 p=26652 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:56:52,447 p=26652 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 14:56:52,457 p=26652 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-04 14:57:01,829 p=26652 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:57:11,905 p=26652 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 14:57:11,918 p=26652 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-04 14:57:14,951 p=26652 u=jonathan |  changed: [210.188.193.238]
+2016-04-04 14:57:15,049 p=26652 u=jonathan |  changed: [210.188.193.237]
+2016-04-04 14:57:15,063 p=26652 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-04 14:57:15,064 p=26652 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:57:15,064 p=26652 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-04 14:57:15,065 p=26652 u=jonathan |  210.188.193.218            : ok=3    changed=1    unreachable=0    failed=0   
+2016-04-04 14:57:15,065 p=26652 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 14:57:15,065 p=26652 u=jonathan |  210.188.193.237            : ok=3    changed=1    unreachable=0    failed=0   
+2016-04-04 14:57:15,066 p=26652 u=jonathan |  210.188.193.238            : ok=3    changed=1    unreachable=0    failed=0   
+2016-04-04 14:58:02,983 p=26837 u=jonathan |   
+2016-04-04 14:58:02,983 p=26837 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host
+2016-04-04 14:58:02,983 p=26837 u=jonathan |   
+2016-04-04 14:58:03,105 p=26837 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-04 14:58:03,106 p=26837 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:58:04,807 p=26837 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:58:04,834 p=26837 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:58:04,854 p=26837 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-04 14:58:14,030 p=26837 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:58:14,654 p=26837 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:58:14,667 p=26837 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-04 14:58:16,110 p=26837 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:58:16,345 p=26837 u=jonathan |  changed: [210.188.193.218]
+2016-04-04 14:58:16,359 p=26837 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-04 14:58:16,361 p=26837 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:58:16,361 p=26837 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-04 14:58:16,362 p=26837 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:58:19,829 p=26837 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 14:58:20,069 p=26837 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:58:20,089 p=26837 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-04 14:58:28,276 p=26837 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:58:29,504 p=26837 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 14:58:29,517 p=26837 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-04 14:58:32,647 p=26837 u=jonathan |  changed: [210.188.193.238]
+2016-04-04 14:58:32,869 p=26837 u=jonathan |  changed: [210.188.193.237]
+2016-04-04 14:58:32,884 p=26837 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-04 14:58:32,885 p=26837 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:58:32,885 p=26837 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-04 14:58:32,886 p=26837 u=jonathan |  210.188.193.218            : ok=3    changed=1    unreachable=0    failed=0   
+2016-04-04 14:58:32,886 p=26837 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 14:58:32,886 p=26837 u=jonathan |  210.188.193.237            : ok=3    changed=1    unreachable=0    failed=0   
+2016-04-04 14:58:32,886 p=26837 u=jonathan |  210.188.193.238            : ok=3    changed=1    unreachable=0    failed=0   
+2016-04-04 14:59:08,746 p=27022 u=jonathan |   
+2016-04-04 14:59:08,746 p=27022 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host
+2016-04-04 14:59:08,746 p=27022 u=jonathan |   
+2016-04-04 14:59:08,858 p=27022 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-04 14:59:08,859 p=27022 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:59:10,531 p=27022 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:59:10,704 p=27022 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:59:10,723 p=27022 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-04 14:59:22,039 p=27022 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:59:22,086 p=27022 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:59:22,099 p=27022 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-04 14:59:23,639 p=27022 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 14:59:23,648 p=27022 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 14:59:23,661 p=27022 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-04 14:59:23,663 p=27022 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:59:23,663 p=27022 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-04 14:59:23,664 p=27022 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 14:59:27,093 p=27022 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 14:59:27,592 p=27022 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:59:27,613 p=27022 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-04 14:59:38,009 p=27022 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 14:59:38,820 p=27022 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:59:38,833 p=27022 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-04 14:59:41,810 p=27022 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 14:59:41,840 p=27022 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 14:59:41,854 p=27022 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-04 14:59:41,855 p=27022 u=jonathan |  skipping: no hosts matched
+2016-04-04 14:59:41,856 p=27022 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-04 14:59:41,856 p=27022 u=jonathan |  210.188.193.218            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 14:59:41,856 p=27022 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 14:59:41,856 p=27022 u=jonathan |  210.188.193.237            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 14:59:41,857 p=27022 u=jonathan |  210.188.193.238            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 15:06:33,496 p=27271 u=jonathan |   
+2016-04-04 15:06:33,496 p=27271 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host --check
+2016-04-04 15:06:33,497 p=27271 u=jonathan |   
+2016-04-04 15:06:33,499 p=27271 u=jonathan |  ERROR: the playbook: sovafree_sftp_proxy_rc4.yml could not be found
+2016-04-04 15:06:38,545 p=27276 u=jonathan |   
+2016-04-04 15:06:38,545 p=27276 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host --check
+2016-04-04 15:06:38,545 p=27276 u=jonathan |   
+2016-04-04 15:06:38,669 p=27276 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-04 15:06:38,670 p=27276 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 15:06:40,432 p=27276 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 15:06:41,066 p=27276 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 15:06:41,086 p=27276 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-04 15:06:52,046 p=27276 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 15:06:54,420 p=27276 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 15:06:54,434 p=27276 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-04 15:06:55,729 p=27276 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 15:06:55,825 p=27276 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 15:06:55,839 p=27276 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-04 15:06:55,840 p=27276 u=jonathan |  skipping: no hosts matched
+2016-04-04 15:06:55,840 p=27276 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-04 15:06:55,842 p=27276 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 15:06:59,229 p=27276 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 15:06:59,388 p=27276 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 15:06:59,407 p=27276 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-04 15:07:07,525 p=27276 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 15:07:09,813 p=27276 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 15:07:09,826 p=27276 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-04 15:07:12,797 p=27276 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 15:07:13,306 p=27276 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 15:07:13,320 p=27276 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-04 15:07:13,321 p=27276 u=jonathan |  skipping: no hosts matched
+2016-04-04 15:07:13,322 p=27276 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-04 15:07:13,322 p=27276 u=jonathan |  210.188.193.218            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 15:07:13,322 p=27276 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 15:07:13,322 p=27276 u=jonathan |  210.188.193.237            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 15:07:13,322 p=27276 u=jonathan |  210.188.193.238            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 15:07:49,782 p=27461 u=jonathan |   
+2016-04-04 15:07:49,782 p=27461 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host
+2016-04-04 15:07:49,782 p=27461 u=jonathan |   
+2016-04-04 15:07:49,903 p=27461 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-04 15:07:49,905 p=27461 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 15:07:51,523 p=27461 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 15:07:51,654 p=27461 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 15:07:51,674 p=27461 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-04 15:08:00,440 p=27461 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 15:08:02,126 p=27461 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 15:08:02,139 p=27461 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-04 15:08:03,578 p=27461 u=jonathan |  ok: [210.188.193.218]
+2016-04-04 15:08:03,655 p=27461 u=jonathan |  ok: [210.188.193.219]
+2016-04-04 15:08:03,668 p=27461 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-04 15:08:03,670 p=27461 u=jonathan |  skipping: no hosts matched
+2016-04-04 15:08:03,670 p=27461 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-04 15:08:03,671 p=27461 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-04 15:08:07,144 p=27461 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 15:08:07,205 p=27461 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 15:08:07,217 p=27461 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-04 15:08:16,330 p=27461 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 15:08:17,399 p=27461 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 15:08:17,413 p=27461 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-04 15:08:20,369 p=27461 u=jonathan |  ok: [210.188.193.238]
+2016-04-04 15:08:20,376 p=27461 u=jonathan |  ok: [210.188.193.237]
+2016-04-04 15:08:20,389 p=27461 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-04 15:08:20,391 p=27461 u=jonathan |  skipping: no hosts matched
+2016-04-04 15:08:20,391 p=27461 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-04 15:08:20,391 p=27461 u=jonathan |  210.188.193.218            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 15:08:20,392 p=27461 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 15:08:20,392 p=27461 u=jonathan |  210.188.193.237            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-04 15:08:20,392 p=27461 u=jonathan |  210.188.193.238            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-07 13:56:18,581 p=32629 u=jonathan |   
+2016-04-07 13:56:18,581 p=32629 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host --check
+2016-04-07 13:56:18,581 p=32629 u=jonathan |   
+2016-04-07 13:56:18,701 p=32629 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-07 13:56:18,703 p=32629 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-07 13:56:21,298 p=32629 u=jonathan |  ok: [210.188.193.218]
+2016-04-07 13:56:21,627 p=32629 u=jonathan |  ok: [210.188.193.219]
+2016-04-07 13:56:21,646 p=32629 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-07 13:56:38,303 p=32629 u=jonathan |  ok: [210.188.193.219]
+2016-04-07 13:56:41,424 p=32629 u=jonathan |  ok: [210.188.193.218]
+2016-04-07 13:56:41,438 p=32629 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-07 13:56:42,890 p=32629 u=jonathan |  ok: [210.188.193.219]
+2016-04-07 13:56:42,931 p=32629 u=jonathan |  ok: [210.188.193.218]
+2016-04-07 13:56:42,944 p=32629 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-07 13:56:42,946 p=32629 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-07 13:56:49,157 p=32629 u=jonathan |  ok: [103.250.203.242]
+2016-04-07 13:56:50,894 p=32629 u=jonathan |  ok: [103.250.203.241]
+2016-04-07 13:56:50,912 p=32629 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-07 13:57:01,577 p=32629 u=jonathan |  ok: [103.250.203.241]
+2016-04-07 13:57:02,719 p=32629 u=jonathan |  ok: [103.250.203.242]
+2016-04-07 13:57:02,732 p=32629 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-07 13:57:03,933 p=32629 u=jonathan |  changed: [103.250.203.241]
+2016-04-07 13:57:03,962 p=32629 u=jonathan |  changed: [103.250.203.242]
+2016-04-07 13:57:03,975 p=32629 u=jonathan |  NOTIFIED: [sovafree_proxy_rc4 | restart nginx] ******************************** 
+2016-04-07 13:57:05,357 p=32629 u=jonathan |  changed: [103.250.203.241]
+2016-04-07 13:57:05,525 p=32629 u=jonathan |  changed: [103.250.203.242]
+2016-04-07 13:57:05,538 p=32629 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-07 13:57:05,539 p=32629 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-07 13:57:09,435 p=32629 u=jonathan |  ok: [210.188.193.237]
+2016-04-07 13:57:09,516 p=32629 u=jonathan |  ok: [210.188.193.238]
+2016-04-07 13:57:09,533 p=32629 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-07 13:57:25,472 p=32629 u=jonathan |  ok: [210.188.193.237]
+2016-04-07 13:57:27,037 p=32629 u=jonathan |  ok: [210.188.193.238]
+2016-04-07 13:57:27,051 p=32629 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-07 13:57:29,790 p=32629 u=jonathan |  ok: [210.188.193.238]
+2016-04-07 13:57:30,134 p=32629 u=jonathan |  ok: [210.188.193.237]
+2016-04-07 13:57:30,148 p=32629 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-07 13:57:30,150 p=32629 u=jonathan |  skipping: no hosts matched
+2016-04-07 13:57:30,150 p=32629 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-07 13:57:30,150 p=32629 u=jonathan |  103.250.203.241            : ok=4    changed=2    unreachable=0    failed=0   
+2016-04-07 13:57:30,150 p=32629 u=jonathan |  103.250.203.242            : ok=4    changed=2    unreachable=0    failed=0   
+2016-04-07 13:57:30,151 p=32629 u=jonathan |  210.188.193.218            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-07 13:57:30,151 p=32629 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-07 13:57:30,151 p=32629 u=jonathan |  210.188.193.237            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-07 13:57:30,151 p=32629 u=jonathan |  210.188.193.238            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-07 13:57:59,364 p=473 u=jonathan |   
+2016-04-07 13:57:59,364 p=473 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host
+2016-04-07 13:57:59,364 p=473 u=jonathan |   
+2016-04-07 13:57:59,483 p=473 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-07 13:57:59,484 p=473 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-07 13:58:01,571 p=473 u=jonathan |  ok: [210.188.193.219]
+2016-04-07 13:58:01,776 p=473 u=jonathan |  ok: [210.188.193.218]
+2016-04-07 13:58:01,797 p=473 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-07 13:58:10,329 p=473 u=jonathan |  ok: [210.188.193.218]
+2016-04-07 13:58:10,851 p=473 u=jonathan |  ok: [210.188.193.219]
+2016-04-07 13:58:10,864 p=473 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-07 13:58:12,262 p=473 u=jonathan |  ok: [210.188.193.219]
+2016-04-07 13:58:12,315 p=473 u=jonathan |  ok: [210.188.193.218]
+2016-04-07 13:58:12,329 p=473 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-07 13:58:12,330 p=473 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-07 13:58:14,106 p=473 u=jonathan |  ok: [103.250.203.241]
+2016-04-07 13:58:14,297 p=473 u=jonathan |  ok: [103.250.203.242]
+2016-04-07 13:58:14,317 p=473 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-07 13:58:18,725 p=473 u=jonathan |  ok: [103.250.203.242]
+2016-04-07 13:58:19,636 p=473 u=jonathan |  ok: [103.250.203.241]
+2016-04-07 13:58:19,643 p=473 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-07 13:58:21,005 p=473 u=jonathan |  changed: [103.250.203.241]
+2016-04-07 13:58:21,386 p=473 u=jonathan |  changed: [103.250.203.242]
+2016-04-07 13:58:21,397 p=473 u=jonathan |  NOTIFIED: [sovafree_proxy_rc4 | restart nginx] ******************************** 
+2016-04-07 13:58:22,911 p=473 u=jonathan |  changed: [103.250.203.242]
+2016-04-07 13:58:23,206 p=473 u=jonathan |  changed: [103.250.203.241]
+2016-04-07 13:58:23,219 p=473 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-07 13:58:23,220 p=473 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-07 13:58:26,541 p=473 u=jonathan |  ok: [210.188.193.237]
+2016-04-07 13:58:26,686 p=473 u=jonathan |  ok: [210.188.193.238]
+2016-04-07 13:58:26,703 p=473 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-07 13:58:35,219 p=473 u=jonathan |  ok: [210.188.193.237]
+2016-04-07 13:58:35,407 p=473 u=jonathan |  ok: [210.188.193.238]
+2016-04-07 13:58:35,420 p=473 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-07 13:58:38,412 p=473 u=jonathan |  ok: [210.188.193.237]
+2016-04-07 13:58:38,735 p=473 u=jonathan |  ok: [210.188.193.238]
+2016-04-07 13:58:38,748 p=473 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-07 13:58:38,749 p=473 u=jonathan |  skipping: no hosts matched
+2016-04-07 13:58:38,750 p=473 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-07 13:58:38,750 p=473 u=jonathan |  103.250.203.241            : ok=4    changed=2    unreachable=0    failed=0   
+2016-04-07 13:58:38,750 p=473 u=jonathan |  103.250.203.242            : ok=4    changed=2    unreachable=0    failed=0   
+2016-04-07 13:58:38,750 p=473 u=jonathan |  210.188.193.218            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-07 13:58:38,751 p=473 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-07 13:58:38,751 p=473 u=jonathan |  210.188.193.237            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-07 13:58:38,751 p=473 u=jonathan |  210.188.193.238            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-08 14:14:36,509 p=2896 u=jonathan |   
+2016-04-08 14:14:36,509 p=2896 u=jonathan |  /usr/bin/ansible-playbook sovafree_sftp_proxy_rc4.yml -i sftp.host --check
+2016-04-08 14:14:36,509 p=2896 u=jonathan |   
+2016-04-08 14:14:36,631 p=2896 u=jonathan |  PLAY [sovafreedev_proxy] ****************************************************** 
+2016-04-08 14:14:36,633 p=2896 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-08 14:14:39,907 p=2896 u=jonathan |  ok: [210.188.193.219]
+2016-04-08 14:14:40,615 p=2896 u=jonathan |  ok: [210.188.193.218]
+2016-04-08 14:14:40,635 p=2896 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-08 14:15:01,310 p=2896 u=jonathan |  ok: [210.188.193.218]
+2016-04-08 14:15:01,633 p=2896 u=jonathan |  ok: [210.188.193.219]
+2016-04-08 14:15:01,646 p=2896 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-08 14:15:03,949 p=2896 u=jonathan |  ok: [210.188.193.219]
+2016-04-08 14:15:04,041 p=2896 u=jonathan |  ok: [210.188.193.218]
+2016-04-08 14:15:04,053 p=2896 u=jonathan |  PLAY [sovafree_proxy] ********************************************************* 
+2016-04-08 14:15:04,055 p=2896 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-08 14:15:07,272 p=2896 u=jonathan |  ok: [103.250.203.242]
+2016-04-08 14:15:07,731 p=2896 u=jonathan |  ok: [103.250.203.241]
+2016-04-08 14:15:07,750 p=2896 u=jonathan |  TASK: [sovafree_proxy_rc4 | yum update] *************************************** 
+2016-04-08 14:15:21,369 p=2896 u=jonathan |  ok: [103.250.203.242]
+2016-04-08 14:15:22,159 p=2896 u=jonathan |  ok: [103.250.203.241]
+2016-04-08 14:15:22,173 p=2896 u=jonathan |  TASK: [sovafree_proxy_rc4 | copy default.conf] ******************************** 
+2016-04-08 14:15:24,511 p=2896 u=jonathan |  ok: [103.250.203.241]
+2016-04-08 14:15:24,652 p=2896 u=jonathan |  ok: [103.250.203.242]
+2016-04-08 14:15:24,665 p=2896 u=jonathan |  PLAY [sovafreedev_sftp] ******************************************************* 
+2016-04-08 14:15:24,667 p=2896 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-08 14:15:28,323 p=2896 u=jonathan |  ok: [210.188.193.237]
+2016-04-08 14:15:28,542 p=2896 u=jonathan |  ok: [210.188.193.238]
+2016-04-08 14:15:28,560 p=2896 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-08 14:15:44,114 p=2896 u=jonathan |  ok: [210.188.193.238]
+2016-04-08 14:15:46,394 p=2896 u=jonathan |  ok: [210.188.193.237]
+2016-04-08 14:15:46,408 p=2896 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-08 14:15:49,448 p=2896 u=jonathan |  ok: [210.188.193.238]
+2016-04-08 14:15:49,607 p=2896 u=jonathan |  ok: [210.188.193.237]
+2016-04-08 14:15:49,621 p=2896 u=jonathan |  PLAY [sovafree_sftp] ********************************************************** 
+2016-04-08 14:15:49,622 p=2896 u=jonathan |  GATHERING FACTS *************************************************************** 
+2016-04-08 14:15:57,951 p=2896 u=jonathan |  ok: [103.250.203.243]
+2016-04-08 14:15:59,646 p=2896 u=jonathan |  ok: [103.250.203.244]
+2016-04-08 14:15:59,663 p=2896 u=jonathan |  TASK: [sovafree_sftp_rc4 | yum update] **************************************** 
+2016-04-08 14:16:13,188 p=2896 u=jonathan |  changed: [103.250.203.244]
+2016-04-08 14:16:13,304 p=2896 u=jonathan |  changed: [103.250.203.243]
+2016-04-08 14:16:13,318 p=2896 u=jonathan |  TASK: [sovafree_sftp_rc4 | copy sshd_config] ********************************** 
+2016-04-08 14:16:14,314 p=2896 u=jonathan |  changed: [103.250.203.244]
+2016-04-08 14:16:14,369 p=2896 u=jonathan |  changed: [103.250.203.243]
+2016-04-08 14:16:14,383 p=2896 u=jonathan |  NOTIFIED: [sovafree_sftp_rc4 | restart sshd] ********************************** 
+2016-04-08 14:16:15,553 p=2896 u=jonathan |  changed: [103.250.203.243]
+2016-04-08 14:16:15,589 p=2896 u=jonathan |  changed: [103.250.203.244]
+2016-04-08 14:16:15,602 p=2896 u=jonathan |  PLAY RECAP ******************************************************************** 
+2016-04-08 14:16:15,603 p=2896 u=jonathan |  103.250.203.241            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-08 14:16:15,603 p=2896 u=jonathan |  103.250.203.242            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-08 14:16:15,603 p=2896 u=jonathan |  103.250.203.243            : ok=4    changed=3    unreachable=0    failed=0   
+2016-04-08 14:16:15,603 p=2896 u=jonathan |  103.250.203.244            : ok=4    changed=3    unreachable=0    failed=0   
+2016-04-08 14:16:15,604 p=2896 u=jonathan |  210.188.193.218            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-08 14:16:15,604 p=2896 u=jonathan |  210.188.193.219            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-08 14:16:15,604 p=2896 u=jonathan |  210.188.193.237            : ok=3    changed=0    unreachable=0    failed=0   
+2016-04-08 14:16:15,604 p=2896 u=jonathan |  210.188.193.238            : ok=3    changed=0    unreachable=0    failed=0   

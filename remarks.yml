@@ -1,0 +1,33 @@
+# When you add new item, make sure to describe here.
+#
+# {IP}: # #{hostname} ##{subscription_id}
+#   :httpd_ssl_conf: {md5_hash} # Hash of /etc/httpd/conf.d/ssl.conf
+#   :postfix_main_cf: {md5_hash} # Hash of "/etc/postfix/main.cf"
+#   :php_ini: {md5_hash} # Hash of /etc/php.ini
+---
+# sova01
+  219.94.218.159: # www.lastday.jp (#51)
+    :httpd_ssl_conf: b368024fd5b5a0b98baecf9915995ce8
+# sova02
+  103.250.200.12: # www.ii-nami.com (#2614)
+    :httpd_ssl_conf: 132aaa07d4cd641451c5d258b9073272
+    :postfix_main_cf: 4d0737d0225677bfb2726b612bd3fbcb
+  103.250.200.16: # freestyle-tattoo.jp (#2734)
+    :httpd_ssl_conf: c39eeac6ad09384068f8dd38462e0054
+  103.250.200.24: # gohoo.org (#12938)
+    :httpd_ssl_conf: 5b52cf6099b67b2a058ab43cfec0d317
+  103.250.200.25: # shusbox.com (#13052)
+    :cdn_webcheck:
+      :status: 301
+# sova04
+  103.250.201.42: # poole-job.jp (#13187)
+    :httpd_performance_conf: ab88837f0542363aa733404262e4b5c6
+# sova05
+  103.250.201.115: # yusaani.com (#12988)
+    :httpd_ssl_conf: 003311825d946e6041748607bf92c6bd
+# sova06
+  103.250.202.11: # iikyujin.net (#2694)
+    # Smaller changes than other instance because infra team replace localhost.key with user's ssl cert rather than editing ssl.conf
+    :httpd_ssl_conf: 09ad1b2da85bb15daca50427e2eea933
+  103.250.202.23: # warakasu.com (#2823)
+    :postfix_main_cf: 26be81d298b2ccad0bd2e471715dca6f

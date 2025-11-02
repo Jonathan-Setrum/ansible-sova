@@ -1,0 +1,75 @@
+require 'rake'
+require 'rspec/core/rake_task'
+require 'yaml'
+
+ENV["INPUT_FILE"]||="properties.yml"
+OUTPUT_DIR="output/"
+
+hosts = YAML.load_file(ENV["INPUT_FILE"])
+
+desc "Run serverspec to all hosts"
+task :serverspec => 'serverspec:all'
+
+namespace :serverspec do
+  task :all => hosts.keys.map{|ip| "serverspec:#{ip}" }
+  hosts.each do |ip, host|
+    desc "Run serverspec on #{host[:label]}"
+    RSpec::Core::RakeTask.new(ip) do |t|
+      t.fail_on_error = false
+      t.pattern = 'spec/{' + host[:roles].join(',') + '}/*_spec.rb'
+      t.rspec_opts = "--format RspecJunitFormatter --out #{OUTPUT_DIR}#{ip.gsub(/[^0-9a-zA-Z\.]/, "-")}.xml --format progress"
+    end
+  end
+
+  desc "Remove result-*.xml files"
+  task :cleanup do
+    FileUtils.rm(Dir.glob("#{OUTPUT_DIR}*.xml"))
+  end
+
+  desc "Merge result-*.xml into results.xml"
+  task :merge do
+    merged = []
+    merged << %{<?xml version="1.0" encoding="UTF-8"?>\n}
+    merged << %{<testsuites>\n}
+
+    Dir.glob("#{OUTPUT_DIR}*.xml").each do |filename|
+      begin
+        puts "Merging #{filename}..."
+        if File.zero?(filename)
+          warn "[WARN] empty file"
+          next
+        end
+        hostname = File.basename(filename).match(%r{(.*)\.xml}).to_a[1]
+        open(filename) do |f|
+          lines = f.readlines
+
+          # Drop XML doctype
+          lines.shift
+
+          # Replace testsuite name with unique label
+          lines[0].sub!(%r{<testsuite name="rspec"}, %{<testsuite name="#{hostname}"})
+
+          replaced = %{  <testcase classname="}
+          lines.map! do |line|
+            if line.start_with? replaced
+              # spec.common.check_permission_spec -> 127.0.0.1.common.check_permission_spec
+              line.sub("#{replaced}spec", "#{replaced}#{hostname}")
+            else
+              line
+            end
+          end
+
+          merged << lines
+        end
+      rescue
+        warn $!
+      end
+    end
+
+    merged << %{</testsuites>}
+
+    open("results.xml", "w") do |f|
+      f.puts merged.join("")
+    end
+  end
+end
